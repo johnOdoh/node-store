@@ -1,0 +1,405 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Edit Product</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Single pro tab start-->
+    <div class="single-product-tab-area mg-tb-15">
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="review-tab-pro-inner">
+                            <ul id="myTab3" class="tab-review-design">
+                                <li class="active"><a href="#description"><i class="fa fa-pencil" aria-hidden="true"></i> Product Edit</a></li>
+                                <li><a href="#reviews"><i class="fa fa-file-image-o" aria-hidden="true"></i>Edit Image</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <% if(imgSuccess || imgError) { %>
+                                    <h4 class="text-center" style="color: green;">
+                                        <%= imgSuccess %>
+                                    </h4>
+                                    <h4 class="text-center" style="color: red;">
+                                        <%= imgError %>
+                                    </h4>
+                                    <% } %>
+                                        <div class="product-tab-list tab-pane fade active in" id="description">
+                                            <form action="/admin/product-edit" method="POST" enctype="multipart/form-data">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="review-content-section">
+                                                            <input type="hidden" name="id" value="<%= product._id %>">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                                <input type="text" name="title" class="form-control" value="<%= product.title %>" placeholder="Product Title" required>
+                                                                <% if (errors && errors.title){ %>
+                                                                    <div><i style="color: red;">Minimum of 5 characters</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt" style="width: 100%;">
+                                                                <textarea name="description" id="" rows="3" class="form-control" placeholder="Description" required><%= product.description %></textarea>
+                                                                <% if (errors && errors.description){ %>
+                                                                    <div><i style="color: red;">Minimum of 5 characters</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                                                                <input value="<%= product.quantity %>" name="quantity" id="quantity" type="number" class="form-control" placeholder="Quantity" required <%=product.hasSize ? 'readonly' : '' %>>
+                                                                <% if (errors && errors.quantity){ %>
+                                                                    <div><i style="color: red;">Enter a valid quantity</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="review-content-section">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                                                <input type="number" name="reg_price" value="<%= product.regPrice %>" step="0.01" class="form-control" placeholder="Regular Price" required>
+                                                                <% if (errors && errors.reg_price){ %>
+                                                                    <div><i style="color: red;">Enter a valid price</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                                                <input type="number" name="sale_price" value="<%= product.salePrice %>" step="0.01" class="form-control" placeholder="Sale Price" required>
+                                                                <% if (errors && errors.sale_price){ %>
+                                                                    <div><i style="color: red;">Enter a valid price</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0;">
+                                                                    <select name="category" class="form-control pro-edt-select form-control-primary">
+                                                                        <option value="">Choose category</option>
+                                                                        <option value="bag">Bag</option>
+                                                                        <option value="bra">Bra</option>
+                                                                        <option value="blouse">Blouse</option>
+                                                                        <option value="boot">Boot</option>
+                                                                        <option value="boxer">Boxer</option>
+                                                                        <option value="flatShoe">Flat Shoes</option>
+                                                                        <option value="gown">Gown</option>
+                                                                        <option value="heels">High Heels</option>
+                                                                        <option value="jacket">Jacket</option>
+                                                                        <option value="jewelry">Jewelry</option>
+                                                                        <option value="pant">Pant</option>
+                                                                        <option value="perfume">Perfume</option>
+                                                                        <option value="purse">Purse</option>
+                                                                        <option value="sandals">Sandals</option>
+                                                                        <option value="singlet">Singlet</option>
+                                                                        <option value="skirt">Skirt</option>
+                                                                        <option value="shirt">Shirt</option>
+                                                                        <option value="shoe">Shoe</option>
+                                                                        <option value="shorts">Shorts</option>
+                                                                        <option value="snickers">Snickers</option>
+                                                                        <option value="suit">Suit</option>
+                                                                        <option value="sweater">Sweater</option>
+                                                                        <option value="trouser">Trouser</option>
+                                                                        <option value="tshirt">T-Shirt</option>
+                                                                        <option value="wallet">Wallet</option>
+                                                                        <option value="watch">Watch</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0;">
+                                                                    <select name="sex" class="form-control pro-edt-select form-control-primary">
+                                                                        <option value="">Choose Sex</option>
+                                                                        <option value="female">Female</option>
+                                                                        <option value="male">Male</option>
+                                                                        <option value="unisex">Unisex</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0; ">
+                                                                    <select name="has_size" class="form-control pro-edt-select form-control-primary" onchange="check(this)">
+                                                                        <option value="">Does item have sizes?</option>
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="bt-df-checkbox pull-left">
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="S" name="sizes[]" type="checkbox" <%= sizeData.S ? 'checked' : '' %> onchange="show(this)"> S</label>
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="M" name="sizes[]" type="checkbox" <%= sizeData.M ? 'checked' : '' %> onchange="show(this)"> M</label>
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="L" name="sizes[]" type="checkbox" <%= sizeData.L ? 'checked' : '' %> onchange="show(this)"> L</label>
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="XL" name="sizes[]" type="checkbox" <%= sizeData.XL ? 'checked' : '' %> onchange="show(this)"> XL</label>
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="XXL" name="sizes[]" type="checkbox" <%= sizeData.XXL ? 'checked' : '' %> onchange="show(this)"> XXL</label>
+                                                                <label style="margin-right: 15px;" class="box">
+                                                                <input class="pull-left radio-checked" value="XXXL" name="sizes[]" type="checkbox" <%= sizeData.XXXL ? 'checked' : '' %> onchange="show(this)"> XXXL</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="S" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>S</b></i></span>
+                                                                <input type="number" name="S" min="0" class="form-control" value="<%= sizeData.SQty ? sizeData.SQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="M" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>M</b></i></span>
+                                                                <input type="number" name="M" min="0" class="form-control" value="<%= sizeData.MQty ? sizeData.MQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="L" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>L</b></i></span>
+                                                                <input type="number" name="L" min="0" class="form-control" value="<%= sizeData.LQty ? sizeData.LQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XL</b></i></span>
+                                                                <input type="number" name="XL" min="0" class="form-control" value="<%= sizeData.XLQty ? sizeData.XLQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XXL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XXL</b></i></span>
+                                                                <input type="number" name="XXL" min="0" class="form-control" value="<%= sizeData.XXLQty ? sizeData.XXLQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XXXL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XXXL</b></i></span>
+                                                                <input type="number" name="XXXL" min="0" class="form-control" value="<%= sizeData.XXXLQty ? sizeData.XXXLQty : 0 %>" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    const qty = document.getElementById('quantity');
+
+                                                    document.querySelectorAll('.box').forEach(element => {
+                                                        if (element.querySelector('input:checked') === null) {
+                                                            document.getElementById(element.querySelector('input').value).style.display = 'none';
+                                                        }
+                                                    })
+
+                                                    const show = (btn) => {
+                                                        const id = btn.value;
+                                                        if (btn.checked) {
+                                                            document.getElementById(id).style.display = 'block'
+                                                        } else {
+                                                            document.getElementById(id).style.display = 'none'
+                                                        }
+                                                    }
+
+                                                    const add = () => {
+                                                        let num = 0;
+                                                        document.querySelectorAll('.num').forEach(element => {
+                                                            num += +element.querySelector('input').value;
+                                                        })
+                                                        qty.value = num;
+                                                    }
+
+                                                    const check = (btn) => {
+                                                        if (btn.value == '1') {
+                                                            qty.readOnly = true;
+                                                            qty.value = 0;
+                                                        } else {
+                                                            qty.readOnly = false;
+                                                        }
+                                                    }
+                                                </script>
+                                                <div class="row" style="margin-top: 20px; ">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds ">
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10 ">
+                                                        Edit Product
+                                                    </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="product-tab-list tab-pane fade" id="reviews">
+                                            <div class="row ">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                                    <div class="review-content-section ">
+                                                        <div class="row ">
+                                                            <div class="col-lg-4 ">
+                                                                <div class="pro-edt-img ">
+                                                                    <img src="<%= product.image %>" alt=" " />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-8 ">
+                                                                <div class="row ">
+                                                                    <div class="col-lg-12 ">
+                                                                        <div class="product-edt-pix-wrap ">
+                                                                            <div class="input-group ">
+                                                                                <span class="input-group-addon ">TT</span>
+                                                                                <input type="text " class="form-control " placeholder="Label Name ">
+                                                                            </div>
+                                                                            <div class="login-form-area adminpro-pd mg-tb-15 ">
+                                                                                <form action="/admin/editImage" method="POST" enctype="multipart/form-data">
+                                                                                    <div id="Image1" class="modal modal-adminpro-general FullColor-popup-DangerModal PrimaryModal-bgcolor fade" role="dialog">
+                                                                                        <div class="modal-dialog ">
+                                                                                            <div class="modal-content ">
+                                                                                                <div class="modal-close-area modal-close-df">
+                                                                                                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                                                                                </div>
+                                                                                                <div class="modal-body">
+                                                                                                    <span class="adminpro-icon adminpro-danger-error modal-check-pro information-icon-pro"></span>
+                                                                                                    <h2>Update Image</h2>
+                                                                                                    <div class="input-group mg-b-pro-edt ">
+                                                                                                        <span class="input-group-addon "><i class="fa fa-file" aria-hidden="true"></i></span>
+                                                                                                        <input type="file" name="image" class="form-control" required>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="modal-footer footer-modal-admin ">
+                                                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                                                    <input type="hidden" name="id" value="<%= product.id %>">
+                                                                                                    <a data-dismiss="modal" href="#">Cancel</a>
+                                                                                                    <button>Process</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-lg-6">
+                                                                                    <div class="product-edt-remove">
+                                                                                        <button type="button " class="btn btn-danger waves-effect waves-light" data-toggle="modal" data-target="#Image1">
+                                                                                    Change Image
+																						<i class="fa fa-exchange" aria-hidden="true"></i>
+																					</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row ">
+                                                            <div class="col-lg-4 ">
+                                                                <div class="pro-edt-img ">
+                                                                    <img src="img/new-product/5-small.jpg " alt=" " />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-8 ">
+                                                                <div class="row ">
+                                                                    <div class="col-lg-12 ">
+                                                                        <div class="product-edt-pix-wrap ">
+                                                                            <div class="input-group ">
+                                                                                <span class="input-group-addon ">TT</span>
+                                                                                <input type="text " class="form-control " placeholder="Label Name ">
+                                                                            </div>
+                                                                            <div class="login-form-area adminpro-pd mg-tb-15 ">
+                                                                                <div id="Image2 " class="modal modal-adminpro-general FullColor-popup-DangerModal PrimaryModal-bgcolor fade " role="dialog ">
+                                                                                    <div class="modal-dialog ">
+                                                                                        <div class="modal-content ">
+                                                                                            <div class="modal-close-area modal-close-df ">
+                                                                                                <a class="close " data-dismiss="modal " href="# "><i class="fa fa-close "></i></a>
+                                                                                            </div>
+                                                                                            <div class="modal-body ">
+                                                                                                <span class="adminpro-icon adminpro-danger-error modal-check-pro information-icon-pro "></span>
+                                                                                                <h2>Danger!</h2>
+                                                                                                <p>The Modal plugin is a dialog box/popup window that is displayed on top of the current page</p>
+                                                                                            </div>
+                                                                                            <div class="modal-footer footer-modal-admin ">
+                                                                                                <a data-dismiss="modal " href="# ">Cancel</a>
+                                                                                                <a href="# ">Process</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row ">
+                                                                                <div class="col-lg-6 ">
+                                                                                    <div class="product-edt-remove ">
+                                                                                        <button type="button " class="btn btn-danger waves-effect waves-light " data-toggle="modal " data-target="#Image2 ">Change Image
+																						<i class="fa fa-exchange " aria-hidden="true "></i>
+																					</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row ">
+                                                            <div class="col-lg-4 ">
+                                                                <div class="pro-edt-img ">
+                                                                    <img src="img/new-product/5-small.jpg " alt=" " />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-8 ">
+                                                                <div class="row ">
+                                                                    <div class="col-lg-12 ">
+                                                                        <div class="product-edt-pix-wrap ">
+                                                                            <div class="input-group ">
+                                                                                <span class="input-group-addon ">TT</span>
+                                                                                <input type="text " class="form-control " placeholder="Label Name ">
+                                                                            </div>
+                                                                            <div class="login-form-area adminpro-pd mg-tb-15 ">
+                                                                                <div id="Image3 " class="modal modal-adminpro-general FullColor-popup-DangerModal PrimaryModal-bgcolor fade " role="dialog ">
+                                                                                    <div class="modal-dialog ">
+                                                                                        <div class="modal-content ">
+                                                                                            <div class="modal-close-area modal-close-df ">
+                                                                                                <a class="close " data-dismiss="modal " href="# "><i class="fa fa-close "></i></a>
+                                                                                            </div>
+                                                                                            <div class="modal-body ">
+                                                                                                <span class="adminpro-icon adminpro-danger-error modal-check-pro information-icon-pro "></span>
+                                                                                                <h2>Update Image</h2>
+                                                                                            </div>
+                                                                                            <div class="modal-footer footer-modal-admin ">
+                                                                                                <a data-dismiss="modal " href="# ">Cancel</a>
+                                                                                                <a href="# ">Process</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row ">
+                                                                                <div class="col-lg-6 ">
+                                                                                    <div class="product-edt-remove ">
+                                                                                        <button type="button " class="btn btn-danger waves-effect waves-light " data-toggle="modal " data-target="#Image3 ">Change Image
+																						<i class="fa fa-exchange " aria-hidden="true "></i>
+																					</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('includes/footer.ejs') %>

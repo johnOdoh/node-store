@@ -1,0 +1,375 @@
+<%- include('includes/header.ejs') %>
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Shop</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Shop</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Shop Page  -->
+    <div class="shop-box-inner">
+        <div class="container">
+            <div class="row">
+                <%- include('includes/sidebar.ejs') %>
+                    <div class="col-xl-9 col-lg-9 col-sm-12 col-xs-12 shop-content-right">
+                        <div class="right-product-box">
+                            <div class="product-item-filter row">
+                                <div class="col-12 col-sm-8 text-center text-sm-left">
+                                    <div class="toolbar-sorter-right">
+                                        <span>Sort by </span>
+                                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+									<option data-display="Select">Nothing</option>
+									<option value="1">Popularity</option>
+									<option value="2">High Price → High Price</option>
+									<option value="3">Low Price → High Price</option>
+									<option value="4">Best Selling</option>
+								</select>
+                                    </div>
+                                    <p>Showing all 4 results</p>
+                                </div>
+                                <div class="col-12 col-sm-4 text-center text-sm-right">
+                                    <ul class="nav nav-tabs ml-auto">
+                                        <li>
+                                            <a class="nav-link active" href="#grid-view" data-toggle="tab"> <i class="fa fa-th"></i> </a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link" href="#list-view" data-toggle="tab"> <i class="fa fa-list-ul"></i> </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <% if(products.length > 0) { %>
+                                <div class="row product-categorie-box">
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
+                                            <div class="row">
+                                                <% let counter = 1; for(let eachProduct of products) { 
+                                                if(eachProduct.hasSize === '1') { %>
+                                                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                        <div class="products-single fix">
+                                                            <div class="box-img-hover">
+                                                                <form action="/cart" method="post">
+                                                                    <div class="modal fade" id="myModal<%= counter %>">
+                                                                        <dic class="modal-dialog">
+                                                                            <div class="modal-content pb-2">
+                                                                                <div class="modal-header why-text">
+                                                                                    <div class="header">Select size</div>
+                                                                                    <button class="mode-button m-0 p-0" data-dismiss="modal">&times;</button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <ul>
+                                                                                        <li>
+                                                                                            <div class="form-group size-st">
+                                                                                                <select id="basic" class="selectpicker show-tick form-control" name="size" required>
+                                                                                                    <option value="">Choose Size</option>
+                                                                                                    <% for (let size of eachProduct.sizes) { 
+                                                                                                        if(size.qty > 0){ %>
+                                                                                                            <option value='<%= size.size %>'><%= size.size %></option>
+                                                                                                        <% }} %>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                                    <input type="hidden" name="id" value="<%= eachProduct._id %>">
+                                                                                    <button class="cart" type="submit" data-dismiss="modal" onclick="submit1(this)">Add to Cart</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </dic>
+                                                                    </div>
+                                                                </form>
+                                                                <div class="type-lb">
+                                                                    <% if(eachProduct.quantity == 0) { %>
+                                                                        <p class="new">Out of Stock</p>
+                                                                        <% }else if(eachProduct.quantity <= 5){ %>
+                                                                            <p class="sale">Limited</p>
+                                                                            <% } %>
+                                                                </div>
+                                                                <img src="<%= eachProduct.image %>" class="img-fluid shop-img" alt="<%= eachProduct.title %>">
+                                                                <div class="mask-icon">
+                                                                    <ul>
+                                                                        <li><a href="/shop-detail/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                        <% if (isLoggedIn) {  
+                                                                            if (wishlist.includes(eachProduct._id)) { %>
+                                                                            <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Remove from Wishlist" style="color: green;"><i class="far fa-heart"></i></a></li>
+                                                                            <% } else { %>
+                                                                                <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                <% } 
+                                                                        } else { %>
+                                                                                    <li><a href="#" data-toggle="modal" data-target="#loginModal" data-toggle="tooltip" data-placement="right" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                    <% } %>
+                                                                    </ul>
+                                                                    <a class="cart" href="#" data-toggle="modal" data-target="#myModal<%= counter %>">Add to Cart</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="why-text">
+                                                                <h4>
+                                                                    <%= eachProduct.title %>
+                                                                </h4>
+                                                                <h5>
+                                                                    <%='$'+eachProduct.salePrice %>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% counter++; }else{ %>
+                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                            <div class="products-single fix">
+                                                                <div class="box-img-hover">
+                                                                    <div class="type-lb">
+                                                                        <% if(eachProduct.quantity == 0) { %>
+                                                                            <p class="new">Out of Stock</p>
+                                                                            <% }else if(eachProduct.quantity <= 5){ %>
+                                                                                <p class="sale">Limited</p>
+                                                                                <% } %>
+                                                                    </div>
+                                                                    <img src="<%= eachProduct.image %>" class="img-fluid shop-img" alt="<%= eachProduct.title %>">
+                                                                    <div class="mask-icon">
+                                                                        <ul>
+                                                                            <li><a href="/shop-detail/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                            <% if (isLoggedIn) {  
+                                                                                if (wishlist.includes(eachProduct._id)) { %>
+                                                                                <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Remove from Wishlist" style="color: green;"><i class="far fa-heart"></i></a></li>
+                                                                                <% } else { %>
+                                                                                    <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                    <% } 
+                                                                            } else { %>
+                                                                                        <li><a href="#" data-toggle="modal" data-target="#loginModal" data-toggle="tooltip" data-placement="right" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                        <% } %>
+                                                                        </ul>
+                                                                        <form action="/cart" method="POST">
+                                                                            <input type="hidden" name="id" value="<%= eachProduct._id %>">
+                                                                            <input type="hidden" name="size" value="null">
+                                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                            <button type="submit" class="cart" onclick="submit2(this)">Add to Cart</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="why-text">
+                                                                    <h4>
+                                                                        <%= eachProduct.title %>
+                                                                    </h4>
+                                                                    <h5>
+                                                                        <%='$'+eachProduct.salePrice %>
+                                                                    </h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <% } %>
+                                                            <% } %>
+                                            </div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane fade" id="list-view">
+                                            <% for(let eachProduct of products) { 
+                                            if(eachProduct.hasSize === '1') { %>
+                                                <div class="list-view-box">
+                                                    <div class="row">
+                                                        <form action="/cart" method="post">
+                                                            <div class="modal fade" id="myModals<%= counter %>">
+                                                                <dic class="modal-dialog">
+                                                                    <div class="modal-content pb-2">
+                                                                        <div class="modal-header why-text">
+                                                                            <div class="header">Select size</div>
+                                                                            <button class="mode-button m-0 p-0" data-dismiss="modal">&times;</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <div class="form-group size-st">
+                                                                                        <select id="basic" class="selectpicker show-tick form-control" name="size" required>
+                                                                                        <option value="">Choose Size</option>
+                                                                                        <% for (let size of eachProduct.sizes) { 
+                                                                                            if(size.qty > 0){ %>
+                                                                                                <option value='<%= size.size %>'><%= size.size %></option>
+                                                                                        <% }} %>
+                                                                                    </select>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                            <input type="hidden" name="id" value="<%= eachProduct._id %>">
+                                                                            <button class="cart" type="submit" data-dismiss="modal" onclick="submit1(this)">Add to Cart</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </dic>
+                                                            </div>
+                                                        </form>
+                                                        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                            <div class="products-single fix">
+                                                                <div class="box-img-hover">
+                                                                    <div class="type-lb">
+                                                                        <% if(eachProduct.quantity == 0) { %>
+                                                                            <p class="new">Out of Stock</p>
+                                                                            <% }else if(eachProduct.quantity <= 5){ %>
+                                                                                <p class="sale">Limited</p>
+                                                                                <% } %>
+                                                                    </div>
+                                                                    <img src="<%= eachProduct.image %>" class="img-fluid shop-img" alt="<%= eachProduct.title %>">
+                                                                    <div class="mask-icon">
+                                                                        <ul>
+                                                                            <li><a href="/shop-detail/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                            <% if (isLoggedIn) {  
+                                                                                if (wishlist.includes(eachProduct._id)) { %>
+                                                                                <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Remove from Wishlist" style="color: green;"><i class="far fa-heart"></i></a></li>
+                                                                                <% } else { %>
+                                                                                    <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                    <% } 
+                                                                            } else { %>
+                                                                                        <li><a href="#" data-toggle="modal" data-target="#loginModal" data-toggle="tooltip" data-placement="right" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                        <% } %>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                            <div class="why-text full-width">
+                                                                <h4>
+                                                                    <%= eachProduct.title %>
+                                                                </h4>
+                                                                <h5> <del><%='$'+eachProduct.regPrice %> </del>
+                                                                    <%='$'+eachProduct.salePrice %>
+                                                                </h5>
+                                                                <p>
+                                                                    <%= eachProduct.description %>
+                                                                </p>
+                                                                <a class="btn hvr-hover" href="#" data-toggle="modal" data-target="#myModals<%= counter %>">Add to Cart</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% counter++; } else { %>
+                                                    <div class="list-view-box">
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                                                                <div class="products-single fix">
+                                                                    <div class="box-img-hover">
+                                                                        <div class="type-lb">
+                                                                            <% if(eachProduct.quantity == 0) { %>
+                                                                                <p class="new">Out of Stock</p>
+                                                                                <% }else if(eachProduct.quantity <= 5){ %>
+                                                                                    <p class="sale">Limited</p>
+                                                                                    <% } %>
+                                                                        </div>
+                                                                        <img src="<%= eachProduct.image %>" class="img-fluid shop-img" alt="<%= eachProduct.title %>">
+                                                                        <div class="mask-icon">
+                                                                            <ul>
+                                                                                <li><a href="/shop-detail/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                                <% if (isLoggedIn) {  
+                                                                                    if (wishlist.includes(eachProduct._id)) { %>
+                                                                                    <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Remove from Wishlist" style="color: green;"><i class="far fa-heart"></i></a></li>
+                                                                                    <% } else { %>
+                                                                                        <li><a href="/admin/wishlist/<%= eachProduct._id %>" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                        <% } 
+                                                                                } else { %>
+                                                                                            <li><a href="#" data-toggle="modal" data-target="#loginModal" data-toggle="tooltip" data-placement="right" title="Login to Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                                                            <% } %>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
+                                                                <div class="why-text full-width">
+                                                                    <h4>
+                                                                        <%= eachProduct.title %>
+                                                                    </h4>
+                                                                    <h5> <del><%='$'+eachProduct.regPrice %> </del>
+                                                                        <%='$'+eachProduct.salePrice %>
+                                                                    </h5>
+                                                                    <p>
+                                                                        <%= eachProduct.description %>
+                                                                    </p>
+                                                                    <form action="/cart" method="POST">
+                                                                        <input type="hidden" name="id" value="<%= eachProduct._id %>">
+                                                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                        <input type="hidden" name="size" value="null">
+                                                                        <button type="submit" class="btn hvr-hover" onclick="submit2(this)">Add to Cart</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                                        <% } %>
+                                        </div>
+                                        <% if(numOfPages > 1) { 
+                                            if (!search) { %>
+                                            <nav aria-label="Page navigation">
+                                                <ul class="pagination pagination-sm justify-content-end">
+                                                    <% if(currentPage !== 1) { %>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="?cat=<%= currentCat %>&for=<%= currentSex %>&page=<%= currentPage - 1 %>" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <% } for(let i = 1; i <= numOfPages; i++) { %>
+                                                            <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                                                                <a class="page-link" href="?cat=<%= currentCat %>&for=<%= currentSex %>&page=<%= i %>">
+                                                                    <%= i %>
+                                                                </a>
+                                                            </li>
+                                                            <% } if(numOfPages !== currentPage) { %>
+                                                                <li class="page-item">
+                                                                    <a class="page-link" href="?cat=<%= currentCat %>&for=<%= currentSex %>&page=<%= currentPage + 1 %>" aria-label="Next">
+                                                                        <span aria-hidden="true">&raquo;</span>
+                                                                    </a>
+                                                                </li>
+                                                                <% } %>
+                                                </ul>
+                                            </nav>
+                                            <% }else{ %>
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination pagination-sm justify-content-end">
+                                                        <% if(currentPage !== 1) { %>
+                                                            <li class="page-item">
+                                                                <a class="page-link" href="?q=<%= search %>&s=&page=<%= currentPage - 1 %>" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <% } for(let i = 1; i <= numOfPages; i++) { %>
+                                                                <li class="page-item <%= currentPage == i ? 'active' : '' %>">
+                                                                    <a class="page-link" href="?q=<%= search %>&s=&page=<%= i %>">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                </li>
+                                                                <% } if(numOfPages !== currentPage) { %>
+                                                                    <li class="page-item">
+                                                                        <a class="page-link" href="?q=<%= search %>&s=&page=<%= currentPage + 1 %>" aria-label="Next">
+                                                                            <span aria-hidden="true">&raquo;</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <% } %>
+                                                    </ul>
+                                                </nav>
+                                                <% } } %>
+                                    </div>
+                                </div>
+                                <% }else { %>
+                                    <h2 class="text-center mt-3 font-weight-bold">No Products Found</h2>
+                                    <% } %>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Shop Page -->
+
+    <%- include('includes/footer.ejs') %>
+        </body>
+
+        </html>

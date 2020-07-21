@@ -1,0 +1,82 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">My Wishlist</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="product-status mg-tb-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="product-status-wrap">
+                        <h4>My Wishlist</h4>
+                        <% if (products.length === 0) { %>
+                            <h4 class="text-center">You have not added any Item to your Wishlist yet!</h4>
+                            <% }else { 
+                                if(successMessage) { %>
+                                <h4 class="text-center" style="color: green;">
+                                    <%= successMessage %>
+                                </h4>
+                                <% } %>
+                                    <table>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Image</th>
+                                            <th>Title</th>
+                                            <th>Price</th>
+                                            <th>Setting</th>
+                                        </tr>
+                                        <% let counter = 1; for(let product of products) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= counter %>
+                                                </td>
+                                                <td><img src="<%= product.image %>" style="max-height: 70px; min-height: 70px;" alt="<%= product.title %>" /></td>
+                                                <td>
+                                                    <%= product.title %>
+                                                </td>
+                                                <td>$
+                                                    <%= product.salePrice %>
+                                                </td>
+                                                <td>
+                                                    <a href="/shop-detail/<%= product._id %>" data-toggle="tooltip" title="View" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                    <a href="/admin/wishlist/<%= product._id %>" data-toggle="tooltip" title="Remove" class="pd-setting-ed delBtn"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                </td>
+                                            </tr>
+                                            <% counter++; } %>
+                                    </table>
+                                    <div class="custom-pagination">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const delBtn = document.getElementsByClassName('delBtn');
+        for (i = 0; i < delBtn.length; i++) {
+            delBtn[i].addEventListener('click', (event) => {
+                var confirmation = confirm("Are you sure you want to proceed?");
+                if (confirmation == false) {
+                    event.preventDefault();
+                }
+            })
+        }
+    </script>
+    <%- include('includes/footer.ejs') %>

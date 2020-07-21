@@ -1,0 +1,159 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login | jeweler - Material Admin Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+		============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <style>
+        .color-line {
+            background: #f7f9fa;
+            height: 6px;
+            background-image: -webkit-linear-gradient(left, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
+            background-image: -moz-linear-gradient(left, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
+            background-image: -ms-linear-gradient(left, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
+            background-image: linear-gradient(to right, #34495e, #34495e 25%, #9b59b6 25%, #9b59b6 35%, #3498db 35%, #3498db 45%, #62cb31 45%, #62cb31 55%, #ffb606 55%, #ffb606 65%, #e67e22 65%, #e67e22 75%, #e74c3c 85%, #e74c3c 85%, #c0392b 85%, #c0392b 100%);
+            background-size: 100% 6px;
+            background-position: 50% 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="color-line"></div>
+    <div class="container-fluid mt-5">
+        <div class="row" id="login">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+            <div class="col-md-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="text-center m-b-md custom-login">
+                    <h3>LOGIN</h3>
+                </div>
+                <hr>
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <form action="/auth/login" id="loginForm" method="POST">
+                            <div class="form-group">
+                                <label class="control-label" for="username">Email</label>
+                                <input type="email" placeholder="example@gmail.com" title="Please enter you username" value="<%= cred.email %>" name="email" id="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="password">Password</label>
+                                <input type="password" title="Please enter your password" placeholder="******" value="<%= cred.password %>" name="password" id="password" class="form-control" required>
+                            </div>
+                            <div class="checkbox login-checkbox" style="float: left;">
+                                <input type="checkbox" class="i-checks" name="rem"> Remember me
+                                <p class="help-block small">(if this is a private computer)</p>
+                            </div>
+                            <div class="checkbox login-checkbox" style="float: right;">
+                                <p><a href="/auth/forgotPassword">Forgot password?</a></p>
+                            </div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="btn btn-danger btn-block loginbtn">Login</button>
+                        </form>
+                        <button class="btn btn-block mt-2 loginbtn" id="regbtn">Don't have an account? Register</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+        </div>
+        <div class="row" id="register">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+            <div class="col-md-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="text-center m-b-md custom-login">
+                    <h3>REGISTER</h3>
+                </div>
+                <hr>
+                <% if(errMessage) { %>
+                    <div class="text-center m-b-md custom-login">
+                        <h5 class="error">
+                            <%= errMessage %>
+                        </h5>
+                    </div>
+                    <% } %>
+                        <div class="hpanel">
+                            <div class="panel-body">
+                                <form action="/auth/signup" id="regForm" method="POST" novalidate>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname">Firstname</label>
+                                                <input type="text" placeholder="John" title="Please enter you username" required value="<%= input ? input.fName : '' %>" name="firstname" id="firstname" class="form-control">
+                                                <div>
+                                                    <i class="error"><%= errors.firstname ? errors.firstname.msg : '' %></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="lastname">Lastname</label>
+                                                <input type="text" placeholder="Doe" title="Please enter you username" required value="<%= input ? input.lName : '' %>" name="lastname" id="lastname" class="form-control">
+                                                <div>
+                                                    <i class="error"><%= errors.lastname ? errors.lastname.msg : '' %></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="email">Email</label>
+                                        <input type="email" placeholder="example@gmail.com" title="Please enter you username" required value="<%= input ? input.email : '' %>" name="email" id="email" class="form-control">
+                                        <div>
+                                            <i class="error"><%= errors.email ? errors.email.msg : '' %></i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="password1">Password</label>
+                                                <input type="password" title="Please enter your password" placeholder="******" required value="" name="password" id="password1" class="form-control">
+                                                <div>
+                                                    <i class="error"><%= errors.password ? errors.password.msg : '' %></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="control-label" for="password2">Confirm Password</label>
+                                                <input type="password" title="Please enter your password" placeholder="******" required value="" name="confirmPassword" id="password2" class="form-control">
+                                                <div>
+                                                    <i class="error"><%= errors.confirmPassword ? errors.confirmPassword.msg : '' %></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button class="btn btn-danger btn-block loginbtn">Register</button>
+                                </form>
+                                <button class="btn btn-block mt-2 loginbtn" id="loginbtn">Already have an account? Login</button>
+                            </div>
+                        </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('regbtn').addEventListener('click', () => {
+            document.getElementById('register').style.display = '';
+            document.getElementById('login').style.display = 'none';
+        });
+        document.getElementById('loginbtn').addEventListener('click', () => {
+            document.getElementById('register').style.display = 'none';
+            document.getElementById('login').style.display = '';
+        });
+    </script>
+</body>
+
+</html>

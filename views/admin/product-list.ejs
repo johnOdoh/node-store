@@ -1,0 +1,90 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Product List</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="product-status mg-tb-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="product-status-wrap">
+                        <h4>Products List</h4>
+                        <div class="add-product">
+                            <a href="/admin/product-add">Add Product</a>
+                        </div>
+                        <% if(successMessage) { %>
+                            <h4 class="text-center" style="color: green;">
+                                <%= successMessage %>
+                            </h4>
+                            <% } %>
+                                <table>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Title</th>
+                                        <th>Sex</th>
+                                        <th>Sizes</th>
+                                        <th>Stock</th>
+                                        <th>Regular Price</th>
+                                        <th>Sale Price</th>
+                                        <th>Setting</th>
+                                    </tr>
+                                    <% for(let product of products) { %>
+                                        <tr>
+                                            <td><img src="<%= product.image %>" style="max-height: 70px; min-height: 70px;" alt="<%= product.title %>" /></td>
+                                            <td>
+                                                <%= product.title %>
+                                            </td>
+                                            <td class="text-uppercase">
+                                                <%= product.sex %>
+                                            </td>
+                                            <% if(product.hasSize === '0'){ %>
+                                                <td>-</td>
+                                                <% }else { %>
+                                                    <td>
+                                                        <% for(let size of product.sizes) { %>
+                                                            <%= size.size + ', ' %>
+                                                                <% } %>
+                                                    </td>
+                                                    <% } %>
+                                                        <td>
+                                                            <%= product.quantity == 0 ? 'Out of Stock' : product.quantity %>
+                                                        </td>
+                                                        <td>$
+                                                            <%= product.regPrice %>
+                                                        </td>
+                                                        <td>$
+                                                            <%= product.salePrice %>
+                                                        </td>
+                                                        <td>
+                                                            <a href="/admin/product-detail/<%= product._id %>" data-toggle="tooltip" title="View" class="pd-setting-ed"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                                            <a href="/admin/product-edit/<%= product._id %>" data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                                            <a href="/admin/deleteProduct/<%= product._id %>" data-toggle="tooltip" title="Trash" class="pd-setting-ed delBtn"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                        </td>
+                                        </tr>
+                                        <% } %>
+                                </table>
+                                <%- numOfPages > 1 ? include('includes/pagination.ejs') : '' %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const delBtn = document.getElementsByClassName('delBtn');
+        for (i = 0; i < delBtn.length; i++) {
+            delBtn[i].addEventListener('click', (event) => {
+                var confirmation = confirm("Are you sure you want to proceed?");
+                if (confirmation == false) {
+                    event.preventDefault();
+                }
+            })
+        }
+    </script>
+    <%- include('includes/footer.ejs') %>

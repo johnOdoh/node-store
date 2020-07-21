@@ -1,0 +1,201 @@
+<%- include('includes/header.ejs') %>
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Checkout</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
+                        <li class="breadcrumb-item active">Checkout</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="checkout-address">
+                        <div class="title-left">
+                            <h3>Billing address</h3>
+                        </div>
+                        <form class="needs-validation" action="/checkout" method="POST" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName">First name *</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="" value="<%= user.firstName %>" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName">Last name *</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="" value="<%= user.lastName %>" disabled>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email">Email Address *</label>
+                                <input type="email" class="form-control" id="email" placeholder="" value="<%= user.email %>" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address">Address *</label>
+                                <input type="text" class="form-control" id="address" placeholder="" name="address1" value="<%= user.addressDetails.address1 %>" required>
+                                <% if(error) { %>
+                                    <div class="error-feedback">
+                                        <%= error.address1 ? 'Please enter your shipping address!' : ''%>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address2">Address 2 <i>(optional)</i></label>
+                                <input type="text" class="form-control" id="address2" placeholder="" name="address2" value="<%= user.addressDetails.address2 %>">
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone">Phone Number *</label>
+                                <input type="text" class="form-control" id="phone" placeholder="" name="phone" value="<%= user.addressDetails.phoneNo %>" required>
+                                <% if(error) { %>
+                                    <div class="error-feedback">
+                                        <%= error.phone ? 'Please provide a valid Phone number!' : '' %>
+                                    </div>
+                                    <% } %>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5 mb-3">
+                                    <label for="country">Country *</label>
+                                    <input type="text" class="form-control" id="country" placeholder="" name="country" value="<%= user.addressDetails.country %>" required>
+                                    <% if(error) { %>
+                                        <div class="error-feedback">
+                                            <%= error.country ? 'Please provide a valid country!' : '' %>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="city">City *</label>
+                                    <input type="text" class="form-control" id="city" placeholder="" name="city" value="<%= user.addressDetails.city %>" required>
+                                    <% if(error) { %>
+                                        <div class="error-feedback">
+                                            <%= error.city ? 'Please provide a valid state!' : '' %>
+                                        </div>
+                                        <% } %>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="zip">Zip *</label>
+                                    <input type="text" class="form-control" id="zip" placeholder="" name="zip" value="<%= user.addressDetails.zip %>" required>
+                                    <% if(error) { %>
+                                        <div class="error-feedback">
+                                            <%= error.zip ? 'Zip code required!' : '' %>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+                            <hr class="mb-4">
+                            <% if (!user.addressDetails.address1) { %>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="save-info" name="save">
+                                    <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                                </div>
+                                <% } %>
+                                    <hr class="mb-1">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-6 mb-3">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="shipping-method-box">
+                                <div class="title-left">
+                                    <h3>Shipping Method</h3>
+                                </div>
+                                <div class="mb-4" id="radios">
+                                    <div class="custom-control custom-radio">
+                                        <input id="shippingOption1" name="shippingOption" class="custom-control-input" value="10" checked type="radio" required>
+                                        <label class="custom-control-label" for="shippingOption1">Standard Delivery</label> <span class="float-right font-weight-bold">$10.00</span> </div>
+                                    <div class="ml-4 mb-2 small">(10-14 business days)</div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="shippingOption2" name="shippingOption" class="custom-control-input" value="20" type="radio">
+                                        <label class="custom-control-label" for="shippingOption2">Express Delivery</label> <span class="float-right font-weight-bold">$20.00</span> </div>
+                                    <div class="ml-4 mb-2 small">(1-5 business days)</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="odr-box">
+                                <div class="title-left">
+                                    <h3>Shopping cart</h3>
+                                </div>
+                                <div class="rounded p-2 bg-light">
+                                    <% for(let product of myCart){ 
+                                        let totalPrice = (product.salePrice * product.qty).toFixed(2);
+                                        %>
+                                        <div class="media mb-2 border-bottom">
+                                            <div class="media-body">
+                                                <a href="/shop-detail/<%= product.prodId %>">
+                                                    <%= product.title %>
+                                                </a>
+                                                <div class="small text-muted">Price:
+                                                    <%= '$'+product.salePrice %>
+                                                        <span class="mx-2">|</span>Size:
+                                                        <%- product.size == 'null' ? '-' : product.size %><span class="mx-2">|</span> Qty:
+                                                            <%= product.qty %> <span class="mx-2">|</span> Subtotal:
+                                                                <%= '$'+totalPrice %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12">
+                            <div class="order-box" id="order-summary">
+                                <div class="title-left">
+                                    <h3>Your order</h3>
+                                </div>
+                                <hr class="my-1">
+                                <div class="d-flex">
+                                    <h4>Sub Total</h4>
+                                    <div class="ml-auto font-weight-bold val">
+                                        <%= '$'+tprice %>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <h4>Shipping Cost</h4>
+                                    <div class="ml-auto font-weight-bold val" id="shipping-cost"> $10.00 </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex gr-total">
+                                    <h5>Grand Total</h5>
+                                    <div class="ml-auto h5" id="grand-total">
+                                        <%= '$'+tprice %>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex shopping-box">
+                            <input type="hidden" name="total" value="<%= tprice %>">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button class="ml-auto btn hvr-hover" type="submit">Place Order</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <% if(hasLimited) { %>
+        <script>
+            alert("One or more Product(s) are limited in stock. Your Cart has been adjusted to the quantity available");
+        </script>
+        <%} %>
+            <!-- End Cart -->
+            <%- include('includes/footer.ejs') %>
+                <script>
+                    checkout();
+                </script>
+                </body>
+
+                </html>

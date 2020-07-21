@@ -1,0 +1,88 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Orders List</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="product-status mg-tb-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="product-status-wrap">
+                        <h4>Orders List</h4>
+                        <table>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Tracking Code</th>
+                                <th>Shipping Method</th>
+                                <th>Total Price</th>
+                                <th>Date</th>
+                                <th>Setting</th>
+                            </tr>
+                            <% let counter = 1; for(let order of orders){  %>
+                                <tr>
+                                    <td>
+                                        <%= counter %>
+                                    </td>
+                                    <td>
+                                        <%= order.trackingCode %>
+                                    </td>
+                                    <td>
+                                        <%= order.shipping.method %>
+                                    </td>
+                                    <td>$
+                                        <%= order.total.toLocaleString(undefined, {maximumFractionDigits: 2}) %>
+                                    </td>
+                                    <td class="time">
+                                        <%= order.time %>
+                                    </td>
+                                    <td style="display: flex;">
+                                        <a class="ds-setting" style="margin-right: 10px;" href="/admin/orderDetails/<%= order._id %>">View Order</a>
+                                        <% if(order.status === 'unlogged') { %>
+                                            <form action="/admin/orderStatus?key=log" method="POST">
+                                                <input type="hidden" name="id" value="<%= order._id %>">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button class="ps-setting">Log Order</button>
+                                            </form>
+                                            <% } else if(order.status === 'logged') { %>
+                                                <form action="/admin/orderStatus?key=complete" method="POST">
+                                                    <input type="hidden" name="id" value="<%= order._id %>">
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <button class="pd-setting">Complete Order</button>
+                                                </form>
+                                                <% } else { %>
+                                                    <span>Order Delivered</span>
+                                                    <% } %>
+                                    </td>
+                                </tr>
+                                <% counter++; } %>
+                        </table>
+                        <%- numOfPages > 1 ? include('includes/pagination.ejs') : '' %>
+                    </div>
+                    <script>
+                        function formatDate(date) {
+                            const timestamp = new Date(date).getTime();
+                            const day = new Date(timestamp).getDate();
+                            const month = new Date(timestamp).getMonth() + 1;
+                            const year = new Date(timestamp).getFullYear();
+                            const hours = new Date(timestamp).getHours()
+                            const minutes = new Date(timestamp).getMinutes();
+                            const seconds = new Date(timestamp).getSeconds();
+                            return `${day}/${month}/${year} ${hours}:${minutes}`;
+                        }
+                        const dates = document.getElementsByClassName('time');
+                        for (let date of dates) {
+                            date.innerText = formatDate(date.innerText);
+                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('includes/footer.ejs') %>

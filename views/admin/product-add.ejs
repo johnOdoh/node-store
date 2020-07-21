@@ -1,0 +1,249 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Add Product</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Single pro tab start-->
+    <div class="single-product-tab-area mg-tb-15">
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="review-tab-pro-inner">
+                            <ul id="myTab3" class="tab-review-design">
+                                <li class="active"><a href="#description"><i class="fa fa-upload" aria-hidden="true"></i>Upload Product</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <div class="product-tab-list tab-pane fade active in" id="description">
+                                    <form action="/admin/product-add" method="POST" enctype="multipart/form-data">
+                                        <% if(successMessage) { %>
+                                            <h4 class="text-center" style="color: green;">
+                                                <%= successMessage %>
+                                            </h4>
+                                            <% } %>
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="review-content-section">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                                <input type="text" name="title" class="form-control" value="<%= input.title %>" placeholder="Product Title" required>
+                                                                <% if (errors.title){ %>
+                                                                    <div><i style="color: red;">Minimum of 5 characters</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt" style="width: 100%;">
+                                                                <textarea name="description" id="" rows="3" class="form-control" placeholder="Description" required><%= input.description %></textarea>
+                                                                <% if (errors.description){ %>
+                                                                    <div><i style="color: red;">Minimum of 5 characters</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-qrcode" aria-hidden="true"></i></span>
+                                                                <input type="number" name="quantity" class="form-control" value="<%= input.quantity %>" placeholder="Quantity" id="quantity" required>
+                                                                <% if (errors.quantity){ %>
+                                                                    <div><i style="color: red;">Enter a valid quantity</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-file" aria-hidden="true"></i></span>
+                                                                <input type="file" name="image" class="form-control" required>
+                                                                <div><i style="color: red;"><%= imgError ? imgError : '' %></i></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="review-content-section">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                                                <input type="number" name="reg_price" step="0.01" class="form-control" value="<%= input.regPrice %>" placeholder="Regular Price" required>
+                                                                <% if (errors.reg_price){ %>
+                                                                    <div><i style="color: red;">Enter a valid price</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="fa fa-usd" aria-hidden="true"></i></span>
+                                                                <input type="number" name="sale_price" step="0.01" class="form-control" value="<%= input.salePrice %>" placeholder="Sale Price" required>
+                                                                <% if (errors.sale_price){ %>
+                                                                    <div><i style="color: red;">Enter a valid price</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0; ">
+                                                                    <select name="category" class="form-control pro-edt-select form-control-primary" required>
+                                                                        <option value="">Choose category</option>
+                                                                        <option value="bag">Bag</option>
+                                                                        <option value="bra">Bra</option>
+                                                                        <option value="blouse">Blouse</option>
+                                                                        <option value="boot">Boot</option>
+                                                                        <option value="boxer">Boxer</option>
+                                                                        <option value="flatShoe">Flat Shoes</option>
+                                                                        <option value="gown">Gown</option>
+                                                                        <option value="heels">High Heels</option>
+                                                                        <option value="jacket">Jacket</option>
+                                                                        <option value="jewelry">Jewelry</option>
+                                                                        <option value="pant">Pant</option>
+                                                                        <option value="perfume">Perfume</option>
+                                                                        <option value="purse">Purse</option>
+                                                                        <option value="sandals">Sandals</option>
+                                                                        <option value="singlet">Singlet</option>
+                                                                        <option value="skirt">Skirt</option>
+                                                                        <option value="shirt">Shirt</option>
+                                                                        <option value="shoe">Shoe</option>
+                                                                        <option value="shorts">Shorts</option>
+                                                                        <option value="snickers">Snickers</option>
+                                                                        <option value="suit">Suit</option>
+                                                                        <option value="sweater">Sweater</option>
+                                                                        <option value="trouser">Trouser</option>
+                                                                        <option value="tshirt">T-Shirt</option>
+                                                                        <option value="wallet">Wallet</option>
+                                                                        <option value="watch">Watch</option>
+                                                                    </select>
+                                                                    <% if (errors.category){ %>
+                                                                        <div><i style="color: red;">Choose a category</i></div>
+                                                                        <% } %>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0;">
+                                                                    <select name="sex" class="form-control pro-edt-select form-control-primary" required>
+                                                                        <option value="">Choose Sex</option>
+                                                                        <option value="female">Female</option>
+                                                                        <option value="male">Male</option>
+                                                                        <option value="unisex">Unisex</option>
+                                                                    </select>
+                                                                    <% if (errors.sex){ %>
+                                                                        <div><i style="color: red;">Choose an option</i></div>
+                                                                        <% } %>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="row">
+                                                                <div class="col-xs-11" style="margin-left: 15px; padding: 0;">
+                                                                    <select name="has_size" class="form-control pro-edt-select form-control-primary" required onchange="check(this)">
+                                                                        <option value="">Does item have sizes?</option>
+                                                                        <option value="0">No</option>
+                                                                        <option value="1">Yes</option>
+                                                                    </select>
+                                                                    <% if (errors.has_size){ %>
+                                                                        <div><i style="color: red;">Choose an option</i></div>
+                                                                        <% } %>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12" style="margin-top: 13px;">
+                                                            <div class="bt-df-checkbox pull-left">
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="S" name="sizes[]" type="checkbox" onchange="show(this)"> S</label>
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="M" name="sizes[]" type="checkbox" onchange="show(this)"> M</label>
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="L" name="sizes[]" type="checkbox" onchange="show(this)"> L</label>
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="XL" name="sizes[]" type="checkbox" onchange="show(this)"> XL</label>
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="XXL" name="sizes[]" type="checkbox" onchange="show(this)"> XXL</label>
+                                                                <label style="margin-right: 15px;">
+                                                                <input class="pull-left radio-checked" value="XXXL" name="sizes[]" type="checkbox" onchange="show(this)"> 3XL</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="S" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>S</b></i></span>
+                                                                <input type="number" name="S" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="M" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>M</b></i></span>
+                                                                <input type="number" name="M" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="L" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>L</b></i></span>
+                                                                <input type="number" name="L" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XL</b></i></span>
+                                                                <input type="number" name="XL" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XXL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XXL</b></i></span>
+                                                                <input type="number" name="XXL" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-4 num" id="XXXL" style="margin-top: 13px;">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><i class="" aria-hidden="true"><b>XXXL</b></i></span>
+                                                                <input type="number" name="XXXL" min="0" class="form-control" value="0" placeholder="Enter Size Quantity" required onchange="add()">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    const qty = document.getElementById('quantity');
+                                                    document.querySelectorAll('.num').forEach(element => {
+                                                        element.style.display = 'none';
+                                                    })
+                                                    const show = (btn) => {
+                                                        const id = btn.value;
+                                                        if (btn.checked) {
+                                                            document.getElementById(id).style.display = 'block'
+                                                        } else {
+                                                            document.getElementById(id).style.display = 'none'
+                                                        }
+                                                    }
+                                                    const add = () => {
+                                                        let num = 0;
+                                                        document.querySelectorAll('.num').forEach(element => {
+                                                            num += +element.querySelector('input').value;
+                                                        })
+                                                        qty.value = num;
+                                                    }
+                                                    const check = (btn) => {
+                                                        if (btn.value == '1') {
+                                                            qty.readOnly = true;
+                                                            qty.value = 0;
+                                                        } else {
+                                                            qty.readOnly = false;
+                                                        }
+                                                    }
+                                                </script>
+                                </div>
+                                <div class="row" style="margin-top: 20px;">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds ">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10 ">Upload Product</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <%- include('includes/footer.ejs') %>

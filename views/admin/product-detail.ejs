@@ -1,0 +1,121 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Product Details</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Single pro tab start-->
+    <div class="single-product-tab-area mg-t-15 mg-b-30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12" style="margin-bottom: 30px;">
+                    <div id="myTabContent1" class="tab-content">
+                        <div class="product-tab-list tab-pane fade active in" id="single-tab1">
+                            <img src="<%= product.image %>" alt="" style="width: 600px; height: 500px;" />
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="single-tab2">
+                            <img src="/admin/img/product/bg-2.jpg" alt="" />
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="single-tab3">
+                            <img src="/admin/img/product/bg-3.jpg" alt="" />
+                        </div>
+                        <div class="product-tab-list tab-pane fade" id="single-tab4">
+                            <img src="/admin/img/product/bg-1.jpg" alt="" />
+                        </div>
+                    </div>
+                    <ul id="single-product-tab">
+                        <li class="active">
+                            <a href="#single-tab1"><img src="<%= product.image %>" alt="" /></a>
+                        </li>
+                        <li>
+                            <a href="#single-tab2"><img src="/admin/img/product/2.jpg" alt="" /></a>
+                        </li>
+                        <li>
+                            <a href="#single-tab3"><img src="/admin/img/product/3.jpg" alt="" /></a>
+                        </li>
+                        <li>
+                            <a href="#single-tab4"><img src="/admin/img/product/1.jpg" alt="" /></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                    <div class="single-product-details res-pro-tb">
+                        <h1 class="text-uppercase">
+                            <%= product.title %>
+                        </h1>
+                        <div class="single-pro-price">
+                            <span class="single-regular"><%= '$'+product.salePrice %></span><span class="single-old"><del><%= '$'+product.regPrice %></del></span>
+                        </div>
+                        <div class="single-pro-size">
+                            <h6>Sizes</h6>
+                            <% if (product.hasSize == 1) { %>
+                                <% for (let size of product.sizes) { %>
+                                    <div>
+                                        <span><%= size.size %></span>
+                                        <span><%= size.qty %></span>
+                                    </div>
+                                    <% } }else { %>
+                                        <span>-</span>
+                                        <% } %>
+                        </div>
+                        <div class="color-quality-pro">
+                            <div style="margin-top: 20px; margin-bottom: 20px;">
+                                <div class="color-quality-details">
+                                    <h4>Qty Available</h4>
+                                    <div class="quantity">
+                                        <div class="pro-quantity-changer">
+                                            <input type="text" value="<%= product.quantity %>" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="color-quality">
+                                    <h4>Qty Sold</h4>
+                                    <div class="quantity">
+                                        <div class="pro-quantity-changer">
+                                            <input type="text" value="<%= product.sold %>" disabled/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                            <div class="color-quality-details">
+                                <h4>Category</h4>
+                                <div class="quantity">
+                                    <div class="pro-quantity-changer text-uppercase">
+                                        <%= product.category %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="color-quality">
+                                <h4>Sex</h4>
+                                <div class="quantity">
+                                    <div class="pro-quantity-changer text-uppercase">
+                                        <%= product.sex %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="single-pro-cn" style="margin-top: 30px;">
+                                <h3 style="font-weight: bolder;">DESCRIPTION</h3>
+                                <p>
+                                    <%= product.description %>
+                                </p>
+                            </div>
+                            <div class="single-pro-button">
+                                <div class="pro-button">
+                                    <a href="/admin/product-edit/<%= product._id %>">Edit Product</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single pro tab End-->
+        <%- include('includes/footer.ejs') %>

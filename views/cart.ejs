@@ -1,0 +1,148 @@
+<%- include('includes/header.ejs') %>
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Cart</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active">Cart</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Size</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cart">
+                                <% for(let product of products) { 
+                                    let totalPrice = (product.salePrice * product.qty).toFixed(2);
+                                    %>
+                                    <form action="/cart" method="POST" class="prod">
+                                        <tr>
+                                            <td class="thumbnail-img">
+                                                <a href="/shop-detail/<%= product.prodId %>">
+                                                <img class="img-fluid" src="<%= product.image %>" alt="" />
+                                            </a>
+                                            </td>
+                                            <td class="name-pr">
+                                                <a href="/shop-detail/<%= product.prodId %>">
+                                                    <%= product.title %>
+                                                </a>
+                                            </td>
+                                            <td class="price-pr ">
+                                                <p class="itemPrice">
+                                                    <%='$'+product.salePrice %>
+                                                </p>
+                                            </td>
+                                            <td class="price-pr">
+                                                <p>
+                                                    <%= product.size === 'null' ? '-' : product.size %>
+                                                </p>
+                                                <input type="hidden" value="<%= product.size %>" name="size">
+                                            </td>
+                                            <td class="quantity-box">
+                                                <input type="number" name="qty" value="<%= product.qty %>" min="1" class="c-input-text qty text myCart">
+                                                <input type="hidden" name="id" value="<%= product.prodId %>">
+                                            </td>
+                                            <td class="total-pr ">
+                                                <p class="itemTotal">
+                                                    <%='$'+totalPrice %>
+                                                </p>
+                                            </td>
+                                            <td class="remove-pr">
+                                                <a href="/remCart?prodId=<%= product.prodId %>&size=<%= product.size %>" onclick="remove(this)">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                            <td class="remove-pr updateCart">
+                                                <div class="update-box">
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <input value="Update Content" type="submit" onclick="submit3(this);">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </form>
+                                    <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="coupon-box">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                            <div class="input-group-append">
+                                <button class="btn btn-theme" type="button">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+                    <div class="order-box">
+                        <h3>Order Summary</h3>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Total</h5>
+                            <div class="ml-auto h5" id="cart-total"> $ 388 </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-lg-8 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+
+                </div>
+                <div class="col-12 d-flex shopping-box">
+                    <% if(isLoggedIn) { %>
+                        <a href="/checkout" class="ml-auto btn hvr-hover">Checkout</a>
+                        <% } else { %>
+                            <a href="#" data-toggle="modal" data-target="#loginModal" class="ml-auto btn hvr-hover">Checkout</a>
+                            <% } %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <% if(hasLimited) { %>
+        <script>
+            alert("One or more Product(s) are limited in stock. Your Cart has been adjusted to the quantity available");
+        </script>
+        <% } %>
+            <!-- End Cart -->
+            <%- include('includes/footer.ejs') %>
+                <script>
+                    cartSum();
+                </script>
+                </body>
+
+                </html>

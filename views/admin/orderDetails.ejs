@@ -1,0 +1,160 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Order Details</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="widget-program-box mg-tb-30">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="hpanel responsive-mg-b-30">
+                        <div class="panel-body">
+                            <div class="text-center content-box">
+
+                                <div class="hpanel hbgred responsive-mg-b-30">
+                                    <div class="panel-body">
+                                        <div class="text-center content-bg-pro">
+                                            <h3>Delivery Info</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-striped text-left">
+                                    <tbody>
+                                        <tr>
+                                            <th class="font-bold">First Name</th>
+                                            <td>
+                                                <%= order.deliveryAddress.firstName %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Last Name</th>
+                                            <td>
+                                                <%= order.deliveryAddress.lastName %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Email</th>
+                                            <td>
+                                                <%= order.deliveryAddress.email %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Country</th>
+                                            <td>
+                                                <%= order.deliveryAddress.country %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">City</th>
+                                            <td>
+                                                <%= order.deliveryAddress.city %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Address1</th>
+                                            <td>
+                                                <%= order.deliveryAddress.address1 %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Address2</th>
+                                            <td>
+                                                <%= order.deliveryAddress.address2 %>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="font-bold">Postal code</th>
+                                            <td>
+                                                <%= order.deliveryAddress.zip %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-danger btn-sm">Action button</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <div class="hpanel responsive-mg-b-30">
+                        <div class="panel-body">
+                            <div class="text-center content-box">
+                                <div class="hpanel hbggreen responsive-mg-b-30">
+                                    <div class="panel-body">
+                                        <div class="text-center content-bg-pro">
+                                            <h3>Order Summary</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-striped text-left">
+                                    <thead>
+                                        <tr>
+                                            <th>S/N</th>
+                                            <th>Product Code</th>
+                                            <th>Product Title</th>
+                                            <th>Size</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="cart">
+                                        <% let counter = 1; for(let product of order.products){ %>
+                                            <tr>
+                                                <td>
+                                                    <%= counter %>
+                                                </td>
+                                                <td>200</td>
+                                                <td>
+                                                    <a href="/shop-detail/<%= product.prodId %>" target="_blank" title="view product">
+                                                        <%= product.title %>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <%= product.size === 'null' ? '-' : product.size %>
+                                                </td>
+                                                <td>
+                                                    <%= product.qty %>
+                                                </td>
+                                                <td>
+                                                    <%= '$'+(product.salePrice*product.qty).toLocaleString(undefined, {maximumFractionDigits: 2}) %>
+                                                </td>
+                                            </tr>
+                                            <% counter++; } %>
+                                                <tr>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td style="font-weight: 600;">Shipping Fee</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td style="font-weight: 600;">
+                                                        <%= '$'+order.shipping.fee.toFixed(2) %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td style="font-weight: 700;">Total Price</td>
+                                                    <td style="font-weight: 700;">
+                                                        <%= '$'+order.total.toLocaleString(undefined, {maximumFractionDigits: 2}) %>
+                                                    </td>
+                                                </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-success btn-sm">Action button</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('includes/footer.ejs') %>

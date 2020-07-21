@@ -1,0 +1,130 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Delivery Address</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Single pro tab start-->
+    <div class="single-product-tab-area mg-tb-15">
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="review-tab-pro-inner">
+                            <ul id="myTab3" class="tab-review-design">
+                                <li class="active"><a href="#address"><i class="fa fa-compass" aria-hidden="true"></i>Delivery Address</a></li>
+                                <li><a href="#editAddress"><i class="fa fa-edit" aria-hidden="true"></i>Edit Address</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <% if(successMessage || errMessage) { %>
+                                    <h4 class="text-center" style="color: green;">
+                                        <%= successMessage %>
+                                    </h4>
+                                    <h4 class="text-center" style="color: red;">
+                                        <%= errMessage %>
+                                    </h4>
+                                    <% } %>
+                                        <div class="product-tab-list tab-pane fade active in" id="address">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="review-content-section">
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>Address 1</b></span>
+                                                            <input type="text" class="form-control" value="<%= user.addressDetails.address1 %>" disabled>
+                                                        </div>
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>Address 2</b></span>
+                                                            <input type="text" class="form-control" value="<%= user.addressDetails.address2 %>" disabled>
+                                                        </div>
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>Country</b></span>
+                                                            <input type="text" class="form-control" value="<%= user.addressDetails.country %>" disabled>
+                                                        </div>
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>City</b></span>
+                                                            <input type="text" class="form-control" value="<%= user.addressDetails.city %>" disabled>
+                                                        </div>
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>Phone Number</b></span>
+                                                            <input type="number" class="form-control" value="<%= user.addressDetails.phoneNo %>" disabled>
+                                                        </div>
+                                                        <div class="input-group mg-b-pro-edt">
+                                                            <span class="input-group-addon"><b>Zip</b></span>
+                                                            <input type="number" class="form-control" value="<%= user.addressDetails.zip %>" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-tab-list tab-pane fade" id="editAddress">
+                                            <form action="/admin/address" method="POST">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="review-content-section">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Address 1</b></span>
+                                                                <input type="text" class="form-control" name="address1" value="<%= user.addressDetails.address1 %>" required>
+                                                                <% if (errors.address1){ %>
+                                                                    <div><i style="color: red;">Enter a valid shipping address!</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Address 2</b></span>
+                                                                <input type="text" class="form-control" name="address2" value="<%= user.addressDetails.address2 %>">
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Country</b></span>
+                                                                <input type="text" class="form-control" name="country" value="<%= user.addressDetails.country %>" required>
+                                                                <% if (errors.country){ %>
+                                                                    <div><i style="color: red;">Enter a valid Country</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>City</b></span>
+                                                                <input type="text" class="form-control" name="city" value="<%= user.addressDetails.city %>" required>
+                                                                <% if (errors.city){ %>
+                                                                    <div><i style="color: red;">Enter a valid City</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Phone Number</b></span>
+                                                                <input type="number" class="form-control" name="phone" value="<%= user.addressDetails.phoneNo %>" required>
+                                                                <% if (errors.phone){ %>
+                                                                    <div><i style="color: red;">Enter a valid Phone Number</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Zip</b></span>
+                                                                <input type="number" class="form-control" name="zip" value="<%= user.addressDetails.zip %>" required>
+                                                                <% if (errors.zip){ %>
+                                                                    <div><i style="color: red;">Enter a valid Zip Code</i></div>
+                                                                    <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds">
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('includes/footer.ejs') %>

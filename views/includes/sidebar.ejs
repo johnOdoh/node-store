@@ -1,0 +1,285 @@
+<div class="col-xl-3 col-lg-3 col-sm-12 col-xs-12 sidebar-shop-left">
+    <div class="product-categori">
+        <div class="search-product">
+            <form action="/shop" method="GET">
+                <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
+                <input class="form-control" name="q" placeholder="Search here..." type="text">
+                <button type="submit" name="s"> <i class="fa fa-search"></i> </button>
+            </form>
+        </div>
+        <div class="filter-sidebar-left">
+            <div class="title-left">
+                <h3>Categories</h3>
+            </div>
+            <div class="list-group list-group-collapse list-group-sm list-group-tree">
+                <div class="list-group-collapse sub-men">
+                    <a class="list-group-item list-group-item-action" href="#sub-menu1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-menu1">Men <small class="text-muted"></small></a>
+                    <div class="collapse show" id="sub-menu1">
+                        <div class="list-group">
+                            <% if(category.suit && category.suit.male > 0) { %>
+                                <a href="?cat=suit&for=male" class="list-group-item list-group-item-action">Suits <small class="text-muted">(<%= category.suit.male %>)</small></a>
+                                <% } %>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">Top <small class="text-muted male-top-total"></small></a>
+                                        <div class="collapse" id="sub-men1">
+                                            <div class="list-group">
+                                                <% if(category.jacket && category.jacket.male > 0) { %>
+                                                    <a href="?cat=jacket&for=male" class="list-group-item list-group-item-action">Jackets <small class="text-muted male-top">(<%= category.jacket.male %>)</small></a>
+                                                    <% } if(category.shirt && category.shirt.male > 0) { %>
+                                                        <a href="?cat=shirt&for=male" class="list-group-item list-group-item-action">Shirts <small class="text-muted male-top">(<%= category.shirt.male %>)</small></a>
+                                                        <% } if(category.tshirt && category.tshirt.male > 0) { %>
+                                                            <a href="?cat=tshirt&for=male" class="list-group-item list-group-item-action">T-Shirts <small class="text-muted male-top">(<%= category.tshirt.male %>)</small></a>
+                                                            <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men2" data-toggle="collapse" aria-expanded="false" aria-controls="sub-men2">Bottom <small class="text-muted male-bot-total"></small></a>
+                                        <div class="collapse" id="sub-men2">
+                                            <div class="list-group">
+                                                <% if(category.shorts && category.shorts.male > 0) { %>
+                                                    <a href="?cat=shorts&for=male" class="list-group-item list-group-item-action">Shorts <small class="text-muted male-bot">(<%= category.shorts.male %>)</small></a>
+                                                    <% } if(category.trouser && category.trouser.male > 0) { %>
+                                                        <a href="?cat=trouser&for=male" class="list-group-item list-group-item-action">Trousers <small class="text-muted male-bot">(<%= category.trouser.male %>)</small></a>
+                                                        <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men4" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men4">Footwear <small class="text-muted male-foot-total"></small></a>
+                                        <div class="collapse" id="sub-men4">
+                                            <div class="list-group">
+                                                <% if(category.boot && category.boot.male > 0) { %>
+                                                    <a href="?cat=boot&for=male" class="list-group-item list-group-item-action">Boots <small class="text-muted male-foot">(<%= category.boot.male %>)</small></a>
+                                                    <% } if(category.sandal && category.sandal.male > 0) { %>
+                                                        <a href="?cat=sandal&for=male" class="list-group-item list-group-item-action">Sandals <small class="text-muted male-foot">(<%= category.sandal.male %>)</small></a>
+                                                        <% } if(category.shoe && category.shoe.male > 0) { %>
+                                                            <a href="?cat=shoe&for=male" class="list-group-item list-group-item-action">Shoes <small class="text-muted male-foot">(<%= category.shoe.male %>)</small></a>
+                                                            <% } if(category.snickers && category.snickers.male > 0) { %>
+                                                                <a href="?cat=snickers&for=male" class="list-group-item list-group-item-action">Snickers <small class="text-muted male-foot">(<%= category.snickers.male %>)</small></a>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men5" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men5">Accessories <small class="text-muted male-access-total"></small></a>
+                                        <div class="collapse" id="sub-men5">
+                                            <div class="list-group">
+                                                <% if(category.jewelry && category.jewelry.male > 0) { %>
+                                                    <a href="?cat=jewelry&for=male" class="list-group-item list-group-item-action">Jewelries <small class="text-muted male-access">(<%= category.jewelry.male %>)</small></a>
+                                                    <% } if(category.perfume && category.perfume.male > 0) { %>
+                                                        <a href="?cat=perfume&for=male" class="list-group-item list-group-item-action">Perfumes <small class="text-muted male-access">(<%= category.perfume.male %>)</small></a>
+                                                        <% } if(category.wallet && category.wallet.male > 0) { %>
+                                                            <a href="?cat=wallet&for=male" class="list-group-item list-group-item-action">Wallets <small class="text-muted male-access">(<%= category.wallet.male %>)</small></a>
+                                                            <% } if(category.watch && category.watch.male > 0) { %>
+                                                                <a href="?cat=watch&for=male" class="list-group-item list-group-item-action">Watches <small class="text-muted male-access">(<%= category.watch.male %>)</small></a>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-men3" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men3">Underwear <small class="text-muted male-under-total"></small></a>
+                                        <div class="collapse" id="sub-men3">
+                                            <div class="list-group">
+                                                <% if(category.boxer && category.boxer.male > 0) { %>
+                                                    <a href="?cat=boxer&for=male" class="list-group-item list-group-item-action">Boxers <small class="text-muted male-under">(<%= category.boxer.male %>)</small></a>
+                                                    <% } if(category.singlet && category.singlet.male > 0) { %>
+                                                        <a href="?cat=singlet&for=male" class="list-group-item list-group-item-action">Singlet <small class="text-muted male-under">(<%= category.singlet.male %>)</small></a>
+                                                        <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-collapse sub-men">
+                    <a class="list-group-item list-group-item-action" href="#sub-menu2" data-toggle="collapse" aria-expanded="true" aria-controls="sub-menu2">Women <small class="text-muted"></small></a>
+                    <div class="collapse show" id="sub-menu2">
+                        <div class="list-group">
+                            <% if(category.gown && category.gown.female > 0) { %>
+                                <a href="?cat=gown&for=female" class="list-group-item list-group-item-action">Gowns <small class="text-muted">(<%= category.gown.female %>)</small></a>
+                                <% } %>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-women1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-women1">Top <small class="text-muted female-top-total"></small></a>
+                                        <div class="collapse" id="sub-women1">
+                                            <div class="list-group">
+                                                <% if(category.blouse && category.blouse.female > 0) { %>
+                                                    <a href="?cat=blouse&for=female" class="list-group-item list-group-item-action">Blouse <small class="text-muted female-top">(<%= category.blouse.female %>)</small></a>
+                                                    <% } if(category.jacket && category.jacket.female > 0) { %>
+                                                        <a href="?cat=jacket&for=female" class="list-group-item list-group-item-action">Jackets <small class="text-muted female-top">(<%= category.jacket.female %>)</small></a>
+                                                        <% } if(category.shirt && category.shirt.female > 0) { %>
+                                                            <a href="?cat=shirt&for=female" class="list-group-item list-group-item-action">Shirts <small class="text-muted female-top">(<%= category.shirt.female %>)</small></a>
+                                                            <% } if(category.tshirt && category.tshirt.female > 0) { %>
+                                                                <a href="?cat=tshirt&for=female" class="list-group-item list-group-item-action">T-Shirts <small class="text-muted female-top">(<%= category.tshirt.female %>)</small></a>
+                                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-women2" data-toggle="collapse" aria-expanded="false" aria-controls="sub-women1">Bottom <small class="text-muted female-bot-total"></small></a>
+                                        <div class="collapse" id="sub-women2">
+                                            <div class="list-group">
+                                                <% if(category.shorts && category.shorts.female > 0) { %>
+                                                    <a href="?cat=shorts&for=female" class="list-group-item list-group-item-action">Shorts <small class="text-muted female-bot">(<%= category.shorts.female %>)</small></a>
+                                                    <% } if(category.skirt && category.skirt.female > 0) { %>
+                                                        <a href="?cat=skirt&for=female" class="list-group-item list-group-item-action">Skirts <small class="text-muted female-bot">(<%= category.skirt.female %>)</small></a>
+                                                        <% } if(category.trouser && category.trouser.female > 0) { %>
+                                                            <a href="?cat=trouser&for=female" class="list-group-item list-group-item-action">Trousers <small class="text-muted female-bot">(<%= category.trouser.female %>)</small></a>
+                                                            <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-women4" data-toggle="collapse" aria-expanded="true" aria-controls="sub-women4">Footwear <small class="text-muted female-foot-total"></small></a>
+                                        <div class="collapse" id="sub-women4">
+                                            <div class="list-group">
+                                                <% if(category.boot && category.boot.female > 0) { %>
+                                                    <a href="?cat=boot&for=female" class="list-group-item list-group-item-action">Boots <small class="text-muted female-foot">(<%= category.boot.female %>)</small></a>
+                                                    <% } if(category.flatShoe && category.flatShoe.female > 0) { %>
+                                                        <a href="?cat=flatShoe&for=female" class="list-group-item list-group-item-action">Flat Shoes <small class="text-muted female-foot">(<%= category.flatShoe.female %>)</small></a>
+                                                        <% } if(category.heels && category.heels.female > 0) { %>
+                                                            <a href="?cat=heels&for=female" class="list-group-item list-group-item-action">High Heels <small class="text-muted female-foot">(<%= category.heels.female %>)</small></a>
+                                                            <% } if(category.sandal && category.sandal.female > 0) { %>
+                                                                <a href="?cat=sandal&for=female" class="list-group-item list-group-item-action">Sandals <small class="text-muted female-foot">(<%= category.sandal.female %>)</small></a>
+                                                                <% } if(category.snickers && category.snickers.female > 0) { %>
+                                                                    <a href="?cat=snickers&for=female" class="list-group-item list-group-item-action">Snickers <small class="text-muted female-foot">(<%= category.snickers.female %>)</small></a>
+                                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-women5" data-toggle="collapse" aria-expanded="true" aria-controls="sub-women5">Accessories <small class="text-muted female-access-total"></small></a>
+                                        <div class="collapse" id="sub-women5">
+                                            <div class="list-group">
+                                                <% if(category.bag && category.bag.female > 0) { %>
+                                                    <a href="?cat=bag&for=female" class="list-group-item list-group-item-action">Bags <small class="text-muted female-access">(<%= category.bag.female %>)</small></a>
+                                                    <% } if(category.jewlery && category.jewelry.female > 0) { %>
+                                                        <a href="?cat=jewelry&for=female" class="list-group-item list-group-item-action">Jewelries <small class="text-muted female-access">(<%= category.jewelry.female %>)</small></a>
+                                                        <% } if(category.perfume && category.perfume.female > 0) { %>
+                                                            <a href="?cat=perfume&for=female" class="list-group-item list-group-item-action">Perfumes <small class="text-muted female-access">(<%= category.perfume.female %>)</small></a>
+                                                            <% } if(category.purse && category.purse.female > 0) { %>
+                                                                <a href="?cat=purse&for=female" class="list-group-item list-group-item-action">Purses <small class="text-muted female-access">(<%= category.purse.female %>)</small></a>
+                                                                <% } if(category.watch && category.watch.female > 0) { %>
+                                                                    <a href="?cat=watch&for=female" class="list-group-item list-group-item-action">Watches <small class="text-muted female-access">(<%= category.watch.female %>)</small></a>
+                                                                    <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-collapse sub-men">
+                                        <a class="list-group-item list-group-item-action" href="#sub-women3" data-toggle="collapse" aria-expanded="true" aria-controls="sub-women3">Underwear <small class="text-muted female-under-total"></small></a>
+                                        <div class="collapse" id="sub-women3">
+                                            <div class="list-group">
+                                                <% if(category.bra && category.bra.female > 0) { %>
+                                                    <a href="?cat=bra&for=female" class="list-group-item list-group-item-action">Bras <small class="text-muted female-under">(<%= category.bra.female %>)</small></a>
+                                                    <% } if(category.pant && category.pant.female > 0) { %>
+                                                        <a href="?cat=pant&for=female" class="list-group-item list-group-item-action">Pants <small class="text-muted female-under">(<%= category.pant.female %>)</small></a>
+                                                        <% } if(category.singlet && category.singlet.female > 0) { %>
+                                                            <a href="?cat=singlet&for=female" class="list-group-item list-group-item-action">Singlets <small class="text-muted female-under">(<%= category.singlet.female %>)</small></a>
+                                                            <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="filter-price-left">
+            <div class="title-left">
+                <h3>Price</h3>
+            </div>
+            <div class="price-box-slider">
+                <div id="slider-range"></div>
+                <p>
+                    <input type="text" id="amount" readonly style="border:0; color:#fbb714; font-weight:bold;">
+                    <button class="btn hvr-hover" id="filter" type="button" onclick="filter(this)">Filter</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const filter = (btn) => {
+            let str = btn.previousElementSibling.value;
+            str = str.replace(/\$/g, '').split('-');
+            const min = +str[0];
+            const max = +str[1];
+            let query = window.location.search;
+            query = query.split('&min=')[0];
+            window.location.search = query + '&min=' + min + '&max=' + max;
+        }
+        //Male nav
+    const mTop = document.getElementsByClassName('male-top');
+    const mBot = document.getElementsByClassName('male-bot');
+    const mFoot = document.getElementsByClassName('male-foot');
+    const mAccess = document.getElementsByClassName('male-access');
+    const mUnder = document.getElementsByClassName('male-under');
+    let mAccessTotal = 0,
+        mTopTotal = 0,
+        mBotTotal = 0,
+        mFootTotal = 0,
+        mUnderTotal = 0;
+
+    for (let element of mTop) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        mTopTotal += +element;
+    }
+    for (let element of mBot) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        mBotTotal += +element;
+    }
+    for (let element of mFoot) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        mFootTotal += +element;
+    }
+    for (let element of mAccess) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        mAccessTotal += +element;
+    }
+    for (let element of mUnder) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        mUnderTotal += +element;
+    }
+    document.getElementsByClassName('male-top-total')[0].innerText = '(' + mTopTotal + ')';
+    document.getElementsByClassName('male-bot-total')[0].innerText = '(' + mBotTotal + ')';
+    document.getElementsByClassName('male-foot-total')[0].innerText = '(' + mFootTotal + ')';
+    document.getElementsByClassName('male-access-total')[0].innerText = '(' + mAccessTotal + ')';
+    document.getElementsByClassName('male-under-total')[0].innerText = '(' + mUnderTotal + ')';
+    //Female nav
+    const fTop = document.getElementsByClassName('female-top');
+    const fBot = document.getElementsByClassName('female-bot');
+    const fFoot = document.getElementsByClassName('female-foot');
+    const fAccess = document.getElementsByClassName('female-access');
+    const fUnder = document.getElementsByClassName('female-under');
+    let fAccessTotal = 0,
+        fTopTotal = 0,
+        fBotTotal = 0,
+        fFootTotal = 0,
+        fUnderTotal = 0;
+
+    for (let element of fTop) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        fTopTotal += +element;
+    }
+    for (let element of fBot) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        fBotTotal += +element;
+    }
+    for (let element of fFoot) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        fFootTotal += +element;
+    }
+    for (let element of fAccess) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        fAccessTotal += +element;
+    }
+    for (let element of fUnder) {
+        element = element.innerText.replace('(', '').replace(')', '');
+        fUnderTotal += +element;
+    }
+    document.getElementsByClassName('female-top-total')[0].innerText = '(' + fTopTotal + ')';
+    document.getElementsByClassName('female-bot-total')[0].innerText = '(' + fBotTotal + ')';
+    document.getElementsByClassName('female-foot-total')[0].innerText = '(' + fFootTotal + ')';
+    document.getElementsByClassName('female-access-total')[0].innerText = '(' + fAccessTotal + ')';
+    document.getElementsByClassName('female-under-total')[0].innerText = '(' + fUnderTotal + ')';
+</script>
