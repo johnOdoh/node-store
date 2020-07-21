@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="clock">
+
+    </div>
+    <script>
+        setInterval(function() {
+            document.getElementById('clock').innerText = new Date()
+        }, 1000);
+        const num = 35586885
+        console.log(num.toLocaleString())
+
+        // var crypto = require('crypto'),
+        //     algorithm = 'aes-256-ctr',
+        //     password = 'RJ23edrf';
+
+        //Here "aes-256-cbc" is the advance encryption standard we are using for encryption.
+
+        // function encrypt(text) {
+        //     var cipher = crypto.createCipher(algorithm, password)
+        //     var crypted = cipher.update(text, 'utf8', 'hex')
+        //     crypted += cipher.final('hex');
+        //     return crypted;
+        // }
+
+
+        // function decrypt(text) {
+        //     var decipher = crypto.createDecipher(algorithm, password)
+        //     var dec = decipher.update(text, 'hex', 'utf8')
+        //     dec += decipher.final('utf8');
+        //     return dec;
+        // }
+
+        // const crypto = require('crypto');
+        // const algorithm = 'aes-256-cbc';
+        // const key = crypto.randomBytes(32);
+        // const iv = crypto.randomBytes(16);
+
+        // function encrypt(text) {
+        //     let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+        //     let encrypted = cipher.update(text);
+        //     encrypted = Buffer.concat([encrypted, cipher.final()]);
+        //     return {
+        //         iv: iv.toString('hex'),
+        //         encryptedData: encrypted.toString('hex')
+        //     };
+        // }
+
+        // function decrypt(text) {
+        //     let iv = Buffer.from(text.iv, 'hex');
+        //     let encryptedText = Buffer.from(text.encryptedData, 'hex');
+        //     let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+        //     let decrypted = decipher.update(encryptedText);
+        //     decrypted = Buffer.concat([decrypted, decipher.final()]);
+        //     return decrypted.toString();
+        // }
+
+        // var hw = encrypt("Some serious stuff")
+        // console.log(hw)
+        // console.log(decrypt(hw))
+        //     // update about every second
+        // let time = new Date(1000);
+        // let times = new Date(time.getTime());
+        // console.log(Date.now());
+        // // let d = times.getDate();
+        // console.log(time);
+        // console.log(time.getTime());
+        // console.log(times.getMinutes());
+        // console.log("hello");
+
+        // console.log(Date.now().toString(36));
+        // console.log(Date.now());
+        // console.log(mail.toString('hex'));
+        // console.log(Date.now().toString(36) + Math.random().toString(36).substring(2, 6));
+        // console.log(Date.now().toString(36).concat(Math.random().toString(36).substring(2, 6)));
+        // console.log(Math.random().toString(36).substring(2, 10));
+        // console.log(Math.random().toString(36).substring(2, 10));
+        // console.log(Math.random().toString());
+        // console.log(Math.random());
+    </script>
+</body>
+
+</html>
