@@ -231,7 +231,8 @@ exports.getShop = (req, res, next) => {
                 currentCat: cat,
                 currentSex: sex,
                 search: search,
-                wishlist: wishlist
+                wishlist: wishlist,
+                num: numOfPagees
             });
         })
         .catch(err => {
