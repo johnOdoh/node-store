@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const multer = require('multer');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 //local express package import
 const path = require('path');
@@ -67,6 +68,7 @@ app.use(csrf());
 app.use(flash());
 app.use(cookieParser());
 app.use(helmet());
+app.use(compression());
 
 app.use((req, res, next) => {
     res.locals.isLoggedIn = req.session.isLoggedIn;
