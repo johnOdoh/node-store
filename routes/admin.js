@@ -22,9 +22,11 @@ router.post('/editImage', midWare.isAdmin, adminController.postImageEdit);
 
 router.get('/product-list', midWare.isAdmin, adminController.getPlist);
 
-router.get('/dashboard', midWare.isAdmin, adminController.getDashboard);
+router.get('/adminDashboard', midWare.isAdmin, adminController.getAdminDashboard);
 
 router.get('/orders', midWare.isAdmin, adminController.getOrders);
+
+router.get('/dashboard', midWare.auth, adminController.getDashboard);
 
 router.get('/myOrders', midWare.auth, adminController.getMyOrders);
 
