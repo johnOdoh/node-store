@@ -111,7 +111,7 @@ mongoose.connect('mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net
     .then(() => {
         //port to listen on
         console.log('connected');
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
     })
     .catch((err) => {
         console.log(err);
