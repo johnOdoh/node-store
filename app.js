@@ -26,8 +26,8 @@ const authRoutes = require('./routes/auth');
 //Express initialization
 const app = express();
 const sessionStore = new mongoDBStore({
-    uri: 'mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net',
-    databaseName: 'shop',
+    uri: `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@johnny-u8qnc.mongodb.net`,
+    databaseName: process.env.MONGO_DEFAULT_DATABASE,
     collection: 'sessions'
 });
 
@@ -107,7 +107,7 @@ app.use((error, req, res, next) => {
     res.status(500).render('admin/500');
 })
 
-mongoose.connect('mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net/shop', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@johnny-u8qnc.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         //port to listen on
         console.log('connected');
