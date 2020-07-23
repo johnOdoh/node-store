@@ -1,0 +1,153 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Dashboard</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="section-admin container-fluid res-mg-t-15">
+        <div class="row admin text-center">
+            <div class="col-md-12">
+                <div class="col-xs-12" style="margin-bottom: 30px;">
+                    <div class="admin-content analysis-progrebar-ctn res-mg-t-30" style="margin-top: -30px;">
+                        <h4 class="text-left text-uppercase" style="margin-bottom: 25px;"><b>Welcome Back, <%= userInfo.firstName %></b></h4>
+                        <div class="row vertical-center-box vertical-center-box-tablet">
+                            <div class="text-left col-xs-3 mar-bot-15">
+                                <label class="label bg-green" id="percent">15% <i class="fa fa-level-down" aria-hidden="true"></i></label>
+                            </div>
+                            <div class="col-xs-9 cus-gh-hd-pro">
+                                <h2 class="text-right no-margin" id="date"></h2>
+                            </div>
+                        </div>
+                        <div class="progress progress-mini">
+                            <div style="width: 0;" class="progress-bar progress-bar-success bg-green" id="level"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 30px;">
+                        <div class="admin-content analysis-progrebar-ctn">
+                            <h4 class="text-left text-uppercase" style="margin-bottom: 30px;"><b>Your Basic Info</b></h4>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">First Name </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.firstName %>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Last Name </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.lastName %>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Email </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.email %>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 30px;">
+                        <div class="admin-content analysis-progrebar-ctn">
+                            <h4 class="text-left text-uppercase" style="margin-bottom: 30px;"><b>Your Order Summary</b></h4>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Total Orders </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= numOfOrders %>
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Total Amount </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= '$'+total.toFixed(2) %>
+                                    </h5>
+                                </div>
+                                <div class="col-xs-6 mar-bot-15 text-left" style="margin-top: 15px;">
+                                    <label class="text-left"><a href="/admin/myOrders">view my Orders</a></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 30px;">
+                        <div class="admin-content analysis-progrebar-ctn">
+                            <h4 class="text-left text-uppercase" style="margin-bottom: 30px;"><b>Your Delivery Info</b></h4>
+                            <div class="row vertical-center-box vertical-center-box-tablet">
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Address </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.addressDetails.address1 %>
+                                    </h5>
+                                </div>
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">City </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.addressDetails.city %>
+                                    </h5>
+                                </div>
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Country </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.addressDetails.country %>
+                                    </h5>
+                                </div>
+                                <div class="col-xs-6 mar-bot-15 text-left">
+                                    <label class="text-left">Phone No </label>
+                                </div>
+                                <div class="col-xs-6 cus-gh-hd-pro">
+                                    <h5 class="text-right no-margin">
+                                        <%= userInfo.addressDetails.phoneNo %>
+                                    </h5>
+                                </div>
+                                <div class="col-xs-6 mar-bot-15 text-left" style="margin-top: 15px;">
+                                    <label class="text-left"><a href="/admin/address">edit delivery address</a></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        setInterval(function() {
+            document.getElementById('date').innerText = new Date()
+        }, 1000);
+        const year = new Date().getFullYear();
+        const time = (Date.now() - new Date(year, 0, 1, 0, 0, 0).getTime()) / (1000)
+        const percentage = ((time / (365 * 24 * 60 * 60)) * 100).toFixed(2)
+        document.getElementById('level').style.width = percentage + '%'
+        document.getElementById('percent').innerText = percentage + '%'
+    </script>
+
+    <%- include('includes/footer.ejs') %>
