@@ -6,7 +6,7 @@ const Product = require('../models/product');
 const Order = require('../models/order');
 const Functions = require('../util/functions');
 
-exports.getDashboard = (req, res, next) => {
+exports.getAdminDashboard = (req, res, next) => {
     let products;
     Product.find().sort('-sold')
         .then(result => {
@@ -17,7 +17,21 @@ exports.getDashboard = (req, res, next) => {
         .then(result => {
             const outOfStock = products.filter(p => p.quantity === 0)
             const orderData = Functions.orderDetails(result);
-            res.render('admin/dashboard', { orderData: orderData, outOfStock: outOfStock, products: products });
+            res.render('admin/admin-dashboard', { orderData: orderData, outOfStock: outOfStock, products: products });
+        })
+        .catch(err => {
+            return next(new Error(err));
+        })
+}
+
+exports.getDashboard = (req, res, next) => {
+    let total = 0;
+    Order.find({ userId: req.user._id })
+        .then(orders => {
+            orders.forEach(o => {
+                total += o.total
+            })
+            res.render('admin/dashboard', { total: total, numOfOrders: orders.length, userInfo: req.user });
         })
         .catch(err => {
             return next(new Error(err));
