@@ -232,7 +232,7 @@ exports.getShop = (req, res, next) => {
                 currentSex: sex,
                 search: search,
                 wishlist: wishlist,
-                num: numOfPagees
+                num: numOfPages
             });
         })
         .catch(err => {
