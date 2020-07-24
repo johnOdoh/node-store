@@ -44,7 +44,7 @@
                                 <label for="address">Address *</label>
                                 <input type="text" class="form-control" id="address" placeholder="" name="address1" value="<%= user.addressDetails.address1 %>" required>
                                 <% if(error) { %>
-                                    <div class="error-feedback">
+                                    <div class="error">
                                         <%= error.address1 ? 'Please enter your shipping address!' : ''%>
                                     </div>
                                     <% } %>
@@ -57,7 +57,7 @@
                                 <label for="phone">Phone Number *</label>
                                 <input type="text" class="form-control" id="phone" placeholder="" name="phone" value="<%= user.addressDetails.phoneNo %>" required>
                                 <% if(error) { %>
-                                    <div class="error-feedback">
+                                    <div class="error">
                                         <%= error.phone ? 'Please provide a valid Phone number!' : '' %>
                                     </div>
                                     <% } %>
@@ -67,7 +67,7 @@
                                     <label for="country">Country *</label>
                                     <input type="text" class="form-control" id="country" placeholder="" name="country" value="<%= user.addressDetails.country %>" required>
                                     <% if(error) { %>
-                                        <div class="error-feedback">
+                                        <div class="error">
                                             <%= error.country ? 'Please provide a valid country!' : '' %>
                                         </div>
                                         <% } %>
@@ -76,7 +76,7 @@
                                     <label for="city">City *</label>
                                     <input type="text" class="form-control" id="city" placeholder="" name="city" value="<%= user.addressDetails.city %>" required>
                                     <% if(error) { %>
-                                        <div class="error-feedback">
+                                        <div class="error">
                                             <%= error.city ? 'Please provide a valid state!' : '' %>
                                         </div>
                                         <% } %>
@@ -85,7 +85,7 @@
                                     <label for="zip">Zip *</label>
                                     <input type="text" class="form-control" id="zip" placeholder="" name="zip" value="<%= user.addressDetails.zip %>" required>
                                     <% if(error) { %>
-                                        <div class="error-feedback">
+                                        <div class="error">
                                             <%= error.zip ? 'Zip code required!' : '' %>
                                         </div>
                                         <% } %>
