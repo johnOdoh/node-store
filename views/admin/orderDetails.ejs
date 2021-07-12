@@ -77,6 +77,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <button class="btn btn-danger btn-sm">Action button</button>
                             </div>
                         </div>
                     </div>
@@ -96,7 +97,7 @@
                                     <thead>
                                         <tr>
                                             <th>S/N</th>
-                                            <th>Product Code</th>
+                                            <!-- <th>Product Code</th> -->
                                             <th>Product Title</th>
                                             <th>Size</th>
                                             <th>Quantity</th>
@@ -109,7 +110,7 @@
                                                 <td>
                                                     <%= counter %>
                                                 </td>
-                                                <td>200</td>
+                                                <!-- <td>200</td> -->
                                                 <td>
                                                     <a href="/shop-detail/<%= product.prodId %>" target="_blank" title="view product">
                                                         <%= product.title %>
@@ -137,6 +138,16 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td style="font-weight: 600;">Discount</td>
+                                                    <td>-</td>
+                                                    <td>-</td>
+                                                    <td style="font-weight: 600;">
+                                                        <%= '$'+order.discount.toFixed(2) %>
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>
@@ -148,6 +159,7 @@
                                                 </tr>
                                     </tbody>
                                 </table>
+                                <button class="btn btn-success btn-sm">Action button</button>
                             </div>
                         </div>
                     </div>

@@ -8,8 +8,8 @@ const csrf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
 const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cookieParser = require('cookie-parser');
 
 //local express package import
 const path = require('path');
@@ -19,15 +19,14 @@ const User = require('./models/user');
 
 //Route imports
 const shopRoutes = require('./routes/shop');
-const wishlistRoutes = require('./routes/wishlist');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 
 //Express initialization
 const app = express();
 const sessionStore = new mongoDBStore({
-    uri: `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@johnny-u8qnc.mongodb.net`,
-    databaseName: process.env.MONGO_DEFAULT_DATABASE,
+    uri: 'mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net',
+    databaseName: 'shop',
     collection: 'sessions'
 });
 
@@ -93,12 +92,11 @@ app.use((req, res, next) => {
 
 //route middlewares 
 app.use(shopRoutes);
-app.use(wishlistRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 
 //default 404 error page
-app.use('/', (req, res, next) => {
+app.use('/404', (req, res, next) => {
     res.status(404).render('admin/404');
 });
 
@@ -107,7 +105,7 @@ app.use((error, req, res, next) => {
     res.status(500).render('admin/500');
 })
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@johnny-u8qnc.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net/shop', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         //port to listen on
         console.log('connected');

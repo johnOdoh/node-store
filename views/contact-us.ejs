@@ -23,13 +23,13 @@
                 <div class="col-lg-4 col-sm-12">
                     <div class="contact-info-left">
                         <h2>CONTACT INFO</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc tristique purus turpis. Maecenas vulputate. </p>
+                        <p>Use any of the channels below to contact us for your enquiries, suggestions or complaints </p>
                         <ul>
                             <li>
                                 <p><i class="fas fa-map-marker-alt"></i>Address: No 10 Independence Avenue <br>Enugu, Enugu state,<br> Nigeria </p>
                             </li>
                             <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+234 813 343 9380">+234 813 343 9380</a></p>
+                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+234 813 343 9380">+1-888 705 770</a></p>
                             </li>
                             <li>
                                 <p><i class="fas fa-envelope"></i>Email: <a href="mailto:thefashionmall@gmail.com">thefashionmall@gmail.com</a></p>
@@ -40,13 +40,10 @@
                 <div class="col-lg-8 col-sm-12">
                     <div class="contact-form-right">
                         <h2>GET IN TOUCH</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed odio justo, ultrices ac nisl sed, lobortis porta elit. Fusce in metus ac ex venenatis ultricies at cursus mauris.</p>
+                        <p>Send us an instant message directly to our email using the form below</p>
                         <% if(successMessage || errMessage) { %>
                             <h4 class="text-center" style="color: green;">
                                 <%= successMessage %>
-                            </h4>
-                            <h4 class="text-center" style="color: red;">
-                                <%= errMessage %>
                             </h4>
                             <% } %>
 
@@ -55,7 +52,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="name" placeholder="Your Name" required>
-                                                <% if (errors.name){ %>
+                                                <% if (errors &&    errors.name){ %>
                                                     <div class="help-block"><i style="color: red;">Please enter your name</i></div>
                                                     <% } %>
                                             </div>
@@ -63,7 +60,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input type="email" placeholder="Your Email" class="form-control" name="email" required>
-                                                <% if (errors.email){ %>
+                                                <% if (errors && errors.email){ %>
                                                     <div class="help-block"><i style="color: red;">Please enter a valid email</i></div>
                                                     <% } %>
                                             </div>
@@ -71,7 +68,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                                                <% if (errors.subject){ %>
+                                                <% if (errors && errors.subject){ %>
                                                     <div class="help-block"><i style="color: red;">Please enter the subjeect</i></div>
                                                     <% } %>
                                             </div>
@@ -79,7 +76,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <textarea class="form-control" name="message" placeholder="Your Message" rows="4" required></textarea>
-                                                <% if (errors.message){ %>
+                                                <% if (errors && errors.message){ %>
                                                     <div class="help-block"><i style="color: red;">Please enter your message</i></div>
                                                     <% } %>
                                             </div>

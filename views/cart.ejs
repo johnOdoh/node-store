@@ -7,7 +7,7 @@
                 <div class="col-lg-12">
                     <h2>Cart</h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item"><a href="/shop">Shop</a></li>
                         <li class="breadcrumb-item active">Cart</li>
                     </ul>
                 </div>
@@ -52,9 +52,7 @@
                                                 </a>
                                             </td>
                                             <td class="price-pr ">
-                                                <p class="itemPrice">
-                                                    <%='$'+product.salePrice %>
-                                                </p>
+                                                <p>$<span class="itemPrice"><%= product.salePrice %></span></p>
                                             </td>
                                             <td class="price-pr">
                                                 <p>
@@ -67,9 +65,7 @@
                                                 <input type="hidden" name="id" value="<%= product.prodId %>">
                                             </td>
                                             <td class="total-pr ">
-                                                <p class="itemTotal">
-                                                    <%='$'+totalPrice %>
-                                                </p>
+                                                <p>$<span class="itemTotal"><%= totalPrice %></span></p>
                                             </td>
                                             <td class="remove-pr">
                                                 <a href="/remCart?prodId=<%= product.prodId %>&size=<%= product.size %>" onclick="remove(this)">
@@ -93,14 +89,17 @@
 
             <div class="row my-5">
                 <div class="col-lg-6 col-sm-12">
-                    <div class="coupon-box">
-                        <div class="input-group input-group-sm">
-                            <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
-                            <div class="input-group-append">
-                                <button class="btn btn-theme" type="button">Apply Coupon</button>
+                    <form action="/coupon" method="POST">
+                        <div class="coupon-box">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text" name="code" required>
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <div class="input-group-append">
+                                    <button class="btn btn-theme" type="submit">Apply Coupon</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="col-lg-2 col-sm-12"></div>
                 <div class="col-lg-4 col-sm-12">
@@ -108,19 +107,37 @@
                         <h3>Order Summary</h3>
                         <hr>
                         <div class="d-flex gr-total">
-                            <h5>Total</h5>
-                            <div class="ml-auto h5" id="cart-total"> $ 388 </div>
+                            <h5>Sub Total</h5>
+                            <div class="ml-auto h5">$<span id="cart-total"></span></div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Coupon Code</h4>
+                            <div class="ml-auto font-weight-bold">
+                                <%= coupon.name || '-' %>
+                                    <% if(coupon.name) { %>
+                                        <a href="/removeCoupon" title="remove coupon"><i class="fas fa-times"></i></a>
+                                        <% } %>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Coupon Discount</h4>
+                            <div class="ml-auto font-weight-bold"><span id="coupon"><%= coupon.discount || 0 %></span>%</div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Discount</h4>
+                            <div class="ml-auto font-weight-bold">$<span id="discount"></span></div>
                         </div>
                         <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5">$<span id="grand-total"></span></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="row my-5">
-                <div class="col-lg-8 col-sm-12"></div>
-                <div class="col-lg-4 col-sm-12">
-
-                </div>
                 <div class="col-12 d-flex shopping-box">
                     <% if(isLoggedIn) { %>
                         <a href="/checkout" class="ml-auto btn hvr-hover">Checkout</a>

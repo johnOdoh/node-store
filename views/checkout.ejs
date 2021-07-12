@@ -23,41 +23,41 @@
                 <div class="col-sm-6 col-lg-6 mb-3">
                     <div class="checkout-address">
                         <div class="title-left">
-                            <h3>Billing address</h3>
+                            <h3>Delivery information</h3>
                         </div>
-                        <form class="needs-validation" action="/checkout" method="POST">
+                        <form id="form">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">First name *</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="<%= user.firstName %>" disabled>
+                                    <input type="text" class="form-control" value="<%= user.firstName %>" disabled>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName">Last name *</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="<%= user.lastName %>" disabled>
+                                    <input type="text" class="form-control" value="<%= user.lastName %>" disabled>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="email">Email Address *</label>
-                                <input type="email" class="form-control" id="email" placeholder="" value="<%= user.email %>" disabled>
+                                <input type="email" class="form-control" value="<%= user.email %>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="address">Address *</label>
-                                <input type="text" class="form-control" id="address" placeholder="" name="address1" value="<%= user.addressDetails.address1 %>" required>
+                                <input type="text" class="form-control" name="address1" value="<%= user.addressDetails.address1 %>" required>
                                 <% if(error) { %>
-                                    <div class="error">
+                                    <div class="error-feedback">
                                         <%= error.address1 ? 'Please enter your shipping address!' : ''%>
                                     </div>
                                     <% } %>
                             </div>
                             <div class="mb-3">
                                 <label for="address2">Address 2 <i>(optional)</i></label>
-                                <input type="text" class="form-control" id="address2" placeholder="" name="address2" value="<%= user.addressDetails.address2 %>">
+                                <input type="text" class="form-control" name="address2" value="<%= user.addressDetails.address2 %>">
                             </div>
                             <div class="mb-3">
                                 <label for="phone">Phone Number *</label>
-                                <input type="text" class="form-control" id="phone" placeholder="" name="phone" value="<%= user.addressDetails.phoneNo %>" required>
+                                <input type="text" class="form-control" name="phone" value="<%= user.addressDetails.phoneNo %>" required>
                                 <% if(error) { %>
-                                    <div class="error">
+                                    <div class="error-feedback">
                                         <%= error.phone ? 'Please provide a valid Phone number!' : '' %>
                                     </div>
                                     <% } %>
@@ -65,27 +65,27 @@
                             <div class="row">
                                 <div class="col-md-5 mb-3">
                                     <label for="country">Country *</label>
-                                    <input type="text" class="form-control" id="country" placeholder="" name="country" value="<%= user.addressDetails.country %>" required>
+                                    <input type="text" class="form-control" name="country" value="<%= user.addressDetails.country %>" required>
                                     <% if(error) { %>
-                                        <div class="error">
+                                        <div class="error-feedback">
                                             <%= error.country ? 'Please provide a valid country!' : '' %>
                                         </div>
                                         <% } %>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="city">City *</label>
-                                    <input type="text" class="form-control" id="city" placeholder="" name="city" value="<%= user.addressDetails.city %>" required>
+                                    <input type="text" class="form-control" name="city" value="<%= user.addressDetails.city %>" required>
                                     <% if(error) { %>
-                                        <div class="error">
+                                        <div class="error-feedback">
                                             <%= error.city ? 'Please provide a valid state!' : '' %>
                                         </div>
                                         <% } %>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="zip">Zip *</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="" name="zip" value="<%= user.addressDetails.zip %>" required>
+                                    <input type="text" class="form-control" name="zip" value="<%= user.addressDetails.zip %>" required>
                                     <% if(error) { %>
-                                        <div class="error">
+                                        <div class="error-feedback">
                                             <%= error.zip ? 'Zip code required!' : '' %>
                                         </div>
                                         <% } %>
@@ -94,7 +94,7 @@
                             <hr class="mb-4">
                             <% if (!user.addressDetails.address1) { %>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="save-info" name="save">
+                                    <input type="checkbox" class="custom-control-input" name="save">
                                     <label class="custom-control-label" for="save-info">Save this information for next time</label>
                                 </div>
                                 <% } %>
@@ -106,17 +106,17 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="shipping-method-box">
                                 <div class="title-left">
-                                    <h3>Shipping Method</h3>
+                                    <h3>Delivery Method</h3>
                                 </div>
                                 <div class="mb-4" id="radios">
                                     <div class="custom-control custom-radio">
-                                        <input id="shippingOption1" name="shippingOption" class="custom-control-input" value="10" checked type="radio" required>
-                                        <label class="custom-control-label" for="shippingOption1">Standard Delivery</label> <span class="float-right font-weight-bold">$10.00</span> </div>
-                                    <div class="ml-4 mb-2 small">(10-14 business days)</div>
+                                        <input id="option1" name="shippingOption" class="custom-control-input" data-id="shr_1J43CWAdrePqaQDq7Nd8qH1a" value="10" checked type="radio" required>
+                                        <label class="custom-control-label" for="option1">Standard Delivery</label> <span class="float-right font-weight-bold">$10.00</span> </div>
+                                    <div class="ml-4 mb-2 small">(7-14 business days)</div>
                                     <div class="custom-control custom-radio">
-                                        <input id="shippingOption2" name="shippingOption" class="custom-control-input" value="20" type="radio">
-                                        <label class="custom-control-label" for="shippingOption2">Express Delivery</label> <span class="float-right font-weight-bold">$20.00</span> </div>
-                                    <div class="ml-4 mb-2 small">(1-5 business days)</div>
+                                        <input id="option2" name="shippingOption" class="custom-control-input" data-id="shr_1J43EsAdrePqaQDqzNrHR1uj" value="20" type="radio">
+                                        <label class="custom-control-label" for="option2">Express Delivery</label> <span class="float-right font-weight-bold">$20.00</span> </div>
+                                    <div class="ml-4 mb-2 small">(2-6 business days)</div>
                                 </div>
                             </div>
                         </div>
@@ -126,9 +126,7 @@
                                     <h3>Shopping cart</h3>
                                 </div>
                                 <div class="rounded p-2 bg-light">
-                                    <% for(let product of myCart){ 
-                                        let totalPrice = (product.salePrice * product.qty).toFixed(2);
-                                        %>
+                                    <% for(let product of myCart){ let totalPrice = (product.salePrice * product.qty).toFixed(2); %>
                                         <div class="media mb-2 border-bottom">
                                             <div class="media-body">
                                                 <a href="/shop-detail/<%= product.prodId %>">
@@ -155,34 +153,82 @@
                                 <hr class="my-1">
                                 <div class="d-flex">
                                     <h4>Sub Total</h4>
-                                    <div class="ml-auto font-weight-bold val">
-                                        <%= '$'+tprice %>
-                                    </div>
+                                    <div class="ml-auto font-weight-bold">$<span class="val"><%= tprice %></span></div>
                                 </div>
                                 <div class="d-flex">
-                                    <h4>Shipping Cost</h4>
-                                    <div class="ml-auto font-weight-bold val" id="shipping-cost"> $10.00 </div>
+                                    <h4>Delivery Cost</h4>
+                                    <div class="ml-auto font-weight-bold">$<span id="shipping-cost" class="val">10.00</span></div>
+                                </div>
+                                <div class="d-flex">
+                                    <h4>Discount</h4>
+                                    <div class="ml-auto font-weight-bold">- $<span id="discount"><%= dis %></span></div>
                                 </div>
                                 <hr>
                                 <div class="d-flex gr-total">
                                     <h5>Grand Total</h5>
-                                    <div class="ml-auto h5" id="grand-total">
-                                        <%= '$'+tprice %>
-                                    </div>
+                                    <div class="ml-auto h5">$<span id="grand-total"><%= tprice %></span></div>
+                                    <input type="hidden" name="disc" value="<%= coupon %>">
                                 </div>
                                 <hr>
                             </div>
                         </div>
                         <div class="col-12 d-flex shopping-box">
-                            <input type="hidden" name="total" value="<%= tprice %>">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button class="ml-auto btn hvr-hover" type="submit">Place Order</button>
+                            <button class="ml-auto btn hvr-hover" type="button" id="checkout">Place Order</button>
                         </div>
                         </form>
+                        <script src="https://js.stripe.com/v3/"></script>
+                        <script>
+                            const stripe = Stripe("pk_test_51J1A3aAdrePqaQDq7JpyokVtraOpGVMFJAPcyG96oG0AD2KCH1gDknMnIJTUUy0iaH3qS5ZSqmAlla5Ayp5KyMZ300pz0TPeKx");
+                            const checkoutButton = document.getElementById("checkout");
+                            checkoutButton.addEventListener("click", () => {
+                                const form = document.querySelector('#form');
+                                const address1 = form.querySelector("input[name='address1']").value;
+                                const address2 = form.querySelector("input[name='address2']").value;
+                                const phone = form.querySelector("input[name='phone']").value;
+                                const country = form.querySelector("input[name='country']").value;
+                                const city = form.querySelector("input[name='city']").value;
+                                const zip = form.querySelector("input[name='zip']").value;
+                                // const shippingId = document.querySelector("input[name='shipping-id']").value;
+                                const shipping = document.querySelector('#shipping-cost').innerText.trim()
+                                const csrf = "<%= csrfToken %>"
+                                const body = {
+                                    address1: address1,
+                                    address2: address2,
+                                    phone: phone,
+                                    country: country,
+                                    city: city,
+                                    zip: zip,
+                                    shipping: shipping,
+                                    // shippingId: shippingId,
+                                    total: '<%= tprice %>'
+                                }
+                                fetch("/stripe", {
+                                        method: "POST",
+                                        headers: {
+                                            'csrf-token': csrf,
+                                            'Accept': 'application/json',
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify(body)
+                                    })
+                                    .then(response => {
+                                        if (!response.ok) throw Error("Sorry an error occured, try again")
+                                        return response.json();
+                                    })
+                                    .then(function(data) {
+                                        if (data.error) return alert(data.error)
+                                        stripe.redirectToCheckout({
+                                            sessionId: data.id
+                                        })
+                                    })
+                                    .catch(error => {
+                                        alert(error);
+                                    });
+                            })
+                        </script>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

@@ -1,0 +1,132 @@
+<%- include('includes/header.ejs') %>
+    <li><span class="bread-blod">Coupons</span>
+    </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- Single pro tab start-->
+    <div class="single-product-tab-area mg-tb-15">
+        <!-- Single pro tab review Start-->
+        <div class="single-pro-review-area">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="review-tab-pro-inner">
+                            <ul id="myTab3" class="tab-review-design">
+                                <li class="active"><a href="#add"><i class="fa fa-user-plus" aria-hidden="true"></i>Add Coupon</a></li>
+                                <li class=""><a href="#list"><i class="fa fa-list" aria-hidden="true"></i>Coupons List</a></li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content custom-product-edit">
+                                <% if(successMessage) { %>
+                                    <h4 class="text-center" style="color: green;">
+                                        <%= successMessage %>
+                                    </h4>
+                                    <% } %>
+                                        <div class="product-tab-list tab-pane fade active in" id="add">
+                                            <form action="/admin/coupon" method="POST" id="coupon-form">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="review-content-section">
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Coupon Name</b></span>
+                                                                <input type="text" name="name" class="form-control" placeholder="Enter Coupon Name" required>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Coupon Code</b></span>
+                                                                <input type="text" name="code" class="form-control" placeholder="Enter Code" required>
+                                                            </div>
+                                                            <div class="input-group mg-b-pro-edt">
+                                                                <span class="input-group-addon"><b>Discount(%)</b></span>
+                                                                <input type="number" name="discount" class="form-control" min="1" max="100" placeholder="Enter discount" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <div class="text-center mg-b-pro-edt custom-pro-edt-ds">
+                                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-10" id="submit-btn">Add Coupon</button>
+                                                            <button type="button" class="btn btn-danger waves-effect waves-light m-r-10 hidden" id="cancel" onclick="end(this)">Cancel Edit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="product-tab-list tab-pane fade" id="list">
+                                            <div class="product-status-wrap">
+                                                <table>
+                                                    <tr>
+                                                        <th>S/N</th>
+                                                        <th>Coupon Code</th>
+                                                        <th>Discount(%)</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    <% let counter = 1; for(let coupon of coupons){  %>
+                                                        <tr>
+                                                            <td>
+                                                                <%= counter %>
+                                                            </td>
+                                                            <td class="code">
+                                                                <%= coupon.code %>
+                                                            </td>
+                                                            <td class="name">
+                                                                <%= coupon.name %>
+                                                            </td>
+                                                            <td class="discount">
+                                                                <%= coupon.discount %>
+                                                            </td>
+                                                            <td>
+                                                                <button class="pd-setting" onclick="edit(this)">Edit Coupon</button>
+                                                                <a class="ds-setting" href="/admin/deleteCoupon/<%= coupon._id %>">Delete Coupon</a>
+                                                            </td>
+                                                        </tr>
+                                                        <% counter++; } %>
+                                                </table>
+                                            </div>
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const couponForm = document.querySelector('#coupon-form')
+        const tab = document.querySelector('#myTab3')
+        const submitBtn = document.querySelector('#submit-btn')
+        const edit = (btn) => {
+            const couponElem = btn.parentElement.parentElement
+            const code = couponElem.querySelector('.code').innerText
+            const name = couponElem.querySelector('.name').innerText
+            const discount = couponElem.querySelector('.discount').innerText
+
+            couponForm.setAttribute('action', '/admin/coupon?edit=y')
+            couponForm.querySelector('#cancel').classList.remove('hidden')
+            couponForm.querySelector('input[name="name"]').value = name
+            couponForm.querySelector('input[name="code"]').value = code
+            couponForm.querySelector('input[name="discount"]').value = discount
+
+            document.querySelector('#add').classList.add('active', 'in')
+            document.querySelector('#list').classList.remove('active', 'in')
+            tab.firstElementChild.classList.add('active')
+            submitBtn.innerText = 'Edit Coupon'
+            tab.nextElementSibling.classList.remove('active')
+        }
+        const end = (btn) => {
+            couponForm.setAttribute('action', '/admin/coupon')
+            couponForm.querySelector('input[name="name"]').value = ''
+            couponForm.querySelector('input[name="code"]').value = ''
+            couponForm.querySelector('input[name="discount"]').value = ''
+            submitBtn.innerText = 'Add Coupon'
+            btn.classList.add('hidden')
+        }
+    </script>
+    <%- include('includes/footer.ejs') %>

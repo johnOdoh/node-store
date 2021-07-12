@@ -2,9 +2,10 @@ const { validationResult } = require('express-validator');
 
 const fs = require('fs');
 
-const Product = require('../models/product');
-const Order = require('../models/order');
-const Functions = require('../util/functions');
+const Product = require('../models/product')
+const Order = require('../models/order')
+const Coupon = require('../models/coupon')
+const Functions = require('../util/functions')
 
 exports.getAdminDashboard = (req, res, next) => {
     let products;
@@ -68,7 +69,7 @@ exports.getPdetail = (req, res, next) => {
     Product.findById(prodId)
         .then(product => {
             if (!product) {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             res.render('admin/product-detail', { product: product });
         })
@@ -82,7 +83,7 @@ exports.getDelete = (req, res, next) => {
     Product.findByIdAndDelete(id)
         .then(product => {
             if (!product) {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             const pth = 'public' + product.image;
             fs.unlink(pth, (err) => {
@@ -173,7 +174,7 @@ exports.getPedit = (req, res, next) => {
     Product.findById(prodid)
         .then(result => {
             if (!result) {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             const obj = {};
             result.sizes.forEach(p => {
@@ -260,7 +261,6 @@ exports.postPedit = (req, res, next) => {
             return next(new Error(err));
         })
 }
-
 
 exports.getAddress = (req, res, next) => {
     res.render('admin/address', { user: req.user, errors: {}, successMessage: req.flash('success'), errMessage: req.flash('err') });
@@ -364,7 +364,7 @@ exports.postOrderStatus = (req, res, next) => {
             } else if (key === 'complete') {
                 order.status = 'delivered';
             } else {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             return order.save()
         })
@@ -391,7 +391,7 @@ exports.getAlterWishlist = (req, res, next) => {
     Product.countDocuments({ _id: prodId })
         .then(count => {
             if (count === 0) {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             const wishlist = req.user.wishlist;
             const index = wishlist.findIndex(p => p == prodId);
@@ -413,9 +413,52 @@ exports.getAlterWishlist = (req, res, next) => {
         })
 }
 
+exports.getCoupon = async(req, res, next) => {
+    try {
+        const coupons = await Coupon.find()
+        res.render('admin/coupon', { successMessage: req.flash('success'), coupons: coupons })
+    } catch (error) {
+        next(new Error(err))
+    }
+}
+
+exports.postCoupon = async(req, res, next) => {
+    try {
+        let coupon
+        if (req.query.edit) {
+            coupon = await Coupon.findOne({ code: req.body.code })
+            coupon.name = req.body.name
+            coupon.code = req.body.code
+            coupon.discount = req.body.discount
+            req.flash('success', 'Coupon Edited!')
+        } else {
+            coupon = new Coupon({
+                name: req.body.name,
+                code: req.body.code,
+                discount: req.body.discount
+            })
+            req.flash('success', 'Coupon Added!')
+        }
+        await coupon.save()
+        res.redirect('back')
+    } catch (err) {
+        next(new Error(err))
+    }
+}
+
+exports.deleteCoupon = async(req, res, next) => {
+    try {
+        await Coupon.findByIdAndDelete(req.params.id)
+        req.flash('success', 'Coupon Deleted!')
+        res.redirect('back')
+    } catch (err) {
+        next(new Error(err))
+    }
+}
+
 exports.getNewAdmin = (req, res, next) => {
     if (req.user.role !== 'super') {
-        return res.redirect('/');
+        return res.redirect('/404');
     }
     res.render('admin/new-admin', { successMessage: req.flash('success'), errMessage: req.flash('err') });
 }

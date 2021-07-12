@@ -1,9 +1,11 @@
 const { validationResult } = require('express-validator');
 const nodemailer = require('nodemailer');
+const stripe = require('stripe')('sk_test_51J1A3aAdrePqaQDqzdKtHoDSJnJJjjRD7w1PVUpDYUMAkJPSVH5xUNjEWj9g3nnAisRR0KwMov0CPm8Q02K0dHDk00BSG3orNA')
 
 const Product = require('../models/product');
 const Order = require('../models/order');
 const Cart = require('../models/cart');
+const Coupon = require('../models/coupon');
 const Functions = require('../util/functions');
 
 const transporter = nodemailer.createTransport({
@@ -26,7 +28,8 @@ exports.getCart = (req, res, next) => {
         }
         Cart.getCart(req, result, (cartItems, limited) => {
             Cart.totalPrice(cartItems, total => {
-                res.render('cart', { path: 'shop', products: cartItems, tPrice: total, hasLimited: limited });
+                const coupon = req.session.cart.coupon || {}
+                res.render('cart', { path: 'shop', products: cartItems, tPrice: total, coupon: coupon, hasLimited: limited });
             })
         })
     })
@@ -40,6 +43,24 @@ exports.postCart = (req, res, next) => {
     cart.addToCart(req, prodId, qty, size, (cartLength) => {
         res.status(200).json({ length: cartLength })
     })
+}
+
+exports.postCoupon = async(req, res, next) => {
+    const code = req.body.code
+    try {
+        const coupon = await Coupon.findOne({ name: code })
+        if (!coupon) return res.redirect('back')
+        req.session.cart.coupon = coupon
+        res.redirect('back')
+    } catch (err) {
+        next(new Error(err))
+    }
+
+}
+
+exports.removeCoupon = async(req, res, next) => {
+    req.session.cart.coupon = undefined
+    res.redirect('back')
 }
 
 exports.deleteCart = (req, res, next) => {
@@ -57,6 +78,7 @@ exports.getCheckout = (req, res, next) => {
     if (req.session.cart.products.length === 0) {
         return res.redirect('/cart');
     }
+    let discount = 0
     const prodIds = req.session.cart.products.map(p => p.prodId);
     Product.find({ _id: { $in: prodIds } }, (err, result) => {
         if (err) {
@@ -64,91 +86,147 @@ exports.getCheckout = (req, res, next) => {
         }
         Cart.getCart(req, result, (cartItems, limited) => {
             Cart.totalPrice(cartItems, total => {
-                res.render('checkout', { path: 'checkout', user: req.user, myCart: cartItems, tprice: total, error: req.flash('err')[0], hasLimited: limited });
+                if (req.session.cart.coupon) {
+                    discount = (total / 100) * req.session.cart.coupon.discount
+                }
+                res.render('checkout', { path: 'checkout', user: req.user, myCart: cartItems, tprice: total, error: req.flash('err')[0], hasLimited: limited, coupon: req.session.cart.coupon.discount || 0, dis: discount });
             })
         })
     })
 }
 
-exports.postCheckout = (req, res, next) => {
+exports.getStripe = async(req, res, next) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
-        req.flash('err', error.mapped())
-        return res.redirect('/checkout');
+        const err = error.array()[0].msg
+        return res.status(200).json({ error: err })
     }
     const prodIds = req.session.cart.products.map(p => p.prodId);
+    try {
+        const body = req.body
+        if (!req.session.cart.coupon) req.session.cart.coupon = { discount: 0 }
+        const result = await Product.find({ _id: { $in: prodIds } })
+        Cart.getCart(req, result, async(cartItems) => {
+            try {
+                const items = cartItems.map(item => {
+                    return {
+                        price_data: {
+                            currency: 'usd',
+                            product_data: {
+                                name: item.title,
+                                images: [],
+                            },
+                            unit_amount: item.salePrice * 100,
+                        },
+                        quantity: item.qty
+                    }
+                })
+                const session = await stripe.checkout.sessions.create({
+                    payment_method_types: ['card'],
+                    line_items: [...items, {
+                        price_data: {
+                            currency: 'usd',
+                            product_data: {
+                                name: 'Delivery Fee',
+                                images: [],
+                            },
+                            unit_amount: body.shipping * 100,
+                        },
+                        quantity: 1
+                    }],
+                    mode: 'payment',
+                    // shipping_rates: [body.shippingId],
+                    // shipping_address_collection: {
+                    //     allowed_countries: []
+                    // },
+                    discounts: [{
+                        coupon: req.session.cart.coupon.code || undefined
+                    }],
+                    success_url: req.protocol + '://' + req.get('host') + '/order',
+                    cancel_url: req.protocol + '://' + req.get('host') + '/checkout'
+                })
+                const data = new Array(body.address1, body.address2, body.phone, body.country, body.city, body.zip, body.total, body.shipping)
+                const cookieData = data.join('::')
+                res.cookie('order', cookieData, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+                res.status(200).json({ id: session.id });
+            } catch (err) {
+                res.status(500).json()
+            }
+        })
+    } catch (err) {
+        res.status(500).json()
+    }
+}
+
+exports.getOrder = async(req, res, next) => {
+    const cookie = req.cookies['order'].split('::');
+    const prodIds = req.session.cart.products.map(p => p.prodId);
     let shippingMethod;
-    const total = +req.body.total + +req.body.shippingOption;
-    Product.find({ _id: { $in: prodIds } }, (err, result) => {
-        if (err) {
-            return next(new Error(err));
-        }
-        if (req.body.shippingOption > 15) {
+    let total = +cookie[6] + +cookie[7]
+    try {
+        const result = await Product.find({ _id: { $in: prodIds } })
+        if (cookie[7] > 15) {
             shippingMethod = 'Express';
         } else {
             shippingMethod = 'Standard';
         }
-        Cart.getCart(req, result, (cartItems) => {
-            const code = Date.now().toString(36).concat(Math.random().toString(36).substring(2, 6));
-            const orders = cartItems;
-            const order = new Order({
-                userId: req.user._id,
-                status: 'unlogged',
-                trackingCode: code,
-                total: total,
-                shipping: {
-                    method: shippingMethod,
-                    fee: req.body.shippingOption
-                },
-                products: orders,
-                deliveryAddress: {
+        Cart.getCart(req, result, async(cartItems) => {
+            try {
+                const code = Date.now().toString(36).concat(Math.random().toString(36).substring(2, 6));
+                const orders = cartItems;
+                const deliveryInfo = {
                     firstName: req.user.firstName,
                     lastName: req.user.lastName,
                     email: req.user.email,
-                    address1: req.body.address1,
-                    address2: req.body.address2,
-                    phone: req.body.phone,
-                    country: req.body.country,
-                    city: req.body.city,
-                    zip: req.body.zip
-                },
-                time: Date.now()
-            })
-            order.save()
-                .then(() => {
-                    Cart.clearCart(req, () => {
-                        req.flash('success', 'Your Order has been Placed!');
-                        res.redirect('/admin/myOrders');
-                        if (req.body.save) {
-                            req.user.deliveryAddress = {
-                                firstName: req.user.firstName,
-                                lastName: req.user.lastName,
-                                email: req.user.email,
-                                address1: req.body.address1,
-                                address2: req.body.address2,
-                                phone: req.body.phone,
-                                country: req.body.country,
-                                city: req.body.city,
-                                zip: req.body.zip
-                            };
-                            req.user.save();
-                        }
-                    })
+                    address1: cookie[0],
+                    address2: cookie[1],
+                    phone: cookie[2],
+                    country: cookie[3],
+                    city: cookie[4],
+                    zip: cookie[5]
+                }
+                let discount = 0
+                if (req.session.cart.coupon.name) discount = (total / 100) * req.session.cart.coupon.discount
+                total -= discount
+                const order = new Order({
+                    userId: req.user._id,
+                    status: 'unlogged',
+                    trackingCode: code,
+                    total: total,
+                    discount: discount,
+                    shipping: {
+                        method: shippingMethod,
+                        fee: cookie[7]
+                    },
+                    products: orders,
+                    deliveryAddress: deliveryInfo,
+                    time: Date.now()
                 })
-                .catch((err) => {
-                    return next(new Error(err));
+                await order.save()
+                Cart.clearCart(req, () => {
+                    req.flash('success', 'Your Order has been Placed!');
+                    if (req.body.save) {
+                        req.user.deliveryAddress = deliveryInfo
+                        req.user.save()
+                    }
                 })
+                res.redirect('/admin/myOrders');
+            } catch (error) {
+                return next(new Error(err));
+            }
         })
-    })
+    } catch (err) {
+        return next(new Error(err));
+    }
 }
 
 exports.getHome = (req, res, next) => {
     res.render('home', { path: 'home' });
 }
 
-exports.getService = (req, res, next) => {
-    res.render('service', { path: 'service' });
-}
+// exports.getService = (req, res, next) => {
+//     res.render('service', { path: 'service' });
+// }
 
 exports.getShopdetail = (req, res, next) => {
     const prodid = req.params.productid;
@@ -159,7 +237,7 @@ exports.getShopdetail = (req, res, next) => {
     Product.findById(prodid)
         .then(result => {
             if (!result) {
-                return res.redirect('/');
+                return res.redirect('/404');
             }
             res.render('shop-detail', { path: 'product', productDetail: result, wishlist: wishlist });
         })
@@ -241,18 +319,14 @@ exports.getShop = (req, res, next) => {
 }
 
 exports.getContactUs = (req, res, next) => {
-    res.render('contact-us', { path: 'contact-us', errors: {}, errMessage: req.flash('err'), successMessage: req.flash('success') });
+    res.render('contact-us', { path: 'contact-us', errors: req.flash('err')[0], successMessage: req.flash('success') });
 }
 
 exports.postContactUs = (req, res, next) => {
     const error = validationResult(req);
     if (!error.isEmpty()) {
-        return res.render('contact-us', {
-            path: 'contact-us',
-            errors: error.mapped(),
-            successMessage: req.flash('success'),
-            errMessage: req.flash('err')
-        });
+        req.flash('err', error.mapped())
+        return res.redirect('/contact-us')
     }
     const name = req.body.name;
     const email = req.body.email;

@@ -66,35 +66,31 @@ exports.postSignUp = (req, res, next) => {
                     }
                 });
             }
-            bcrypt.hash(password, 10)
-                .then(hashedPassword => {
-                    const user = new User({
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        password: hashedPassword,
-                        addressDetails: {}
-                    })
-                    return user.save()
-                })
-                .then(() => {
-                    const mailOptions = {
-                        from: 'myshop@nodemailer.com',
-                        to: email, // list of receivers
-                        subject: 'Signup Successful', // Subject line
-                        html: '<p>Your Signup was successful, happy shopping</p>' // plain text body
-                    };
-
-                    transporter.sendMail(mailOptions, (err, info) => {
-                        if (err)
-                            console.log(err)
-                    });
-                    req.flash('success', 'Registration successful, Login to continue shopping');
-                    res.redirect('/auth/login');
-                })
-                .catch((err) => {
-                    return next(new Error(err));
-                })
+            return bcrypt.hash(password, 10)
+        })
+        .then(hashedPassword => {
+            const user = new User({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: hashedPassword,
+                addressDetails: {}
+            })
+            return user.save()
+        })
+        .then(() => {
+            const mailOptions = {
+                from: 'myshop@nodemailer.com',
+                to: email, // list of receivers
+                subject: 'Signup Successful', // Subject line
+                html: '<p>Your Signup was successful, happy shopping</p>' // plain text body
+            };
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err)
+                    console.log(err)
+            });
+            req.flash('success', 'Registration successful, Login to continue shopping');
+            res.redirect('/auth/login');
         })
         .catch((err) => {
             return next(new Error(err));
@@ -254,7 +250,7 @@ exports.postChangePass = (req, res, next) => {
 
 exports.postNewAdmin = (req, res, next) => {
     if (req.user.role !== 'super') {
-        return res.redirect('/');
+        return res.redirect('/404');
     }
     const error = validationResult(req);
     if (!error.isEmpty()) {
@@ -263,6 +259,7 @@ exports.postNewAdmin = (req, res, next) => {
     }
     const email = req.body.email;
     const type = req.body.type;
+    let name
     user.findOne({ email: email })
         .then(user => {
             if (!user) {
@@ -274,30 +271,27 @@ exports.postNewAdmin = (req, res, next) => {
                 return res.redirect('back');
             }
             user.role = type;
-            const name = user.firstName + ' ' + user.lastName;
-            user.save()
-                .then(() => {
-                    req.flash('success', 'Admin Successfully Created!');
-                    res.redirect('back');
-                    const mailOptions = {
-                        from: 'myshop@nodemailer.com',
-                        to: email,
-                        subject: 'Status Upgrade',
-                        html: `
-                            <p>Dear ${name}, your status in Johnny Shop has been Upgraded. You are now an Admin.</p>
-                            <p>Welcome to our Team. Let us work hard to make Johnny shop a success.</p>
-                            <p>Login to your account to explore the new features of your account. Cheers</p>
-                        `
-                    };
-                    transporter.sendMail(mailOptions, (err, info) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                })
-                .catch(err => {
-                    return next(new Error(err));
-                })
+            name = user.firstName + ' ' + user.lastName;
+            return user.save()
+        })
+        .then(() => {
+            req.flash('success', 'Admin Successfully Created!');
+            res.redirect('back');
+            const mailOptions = {
+                from: 'myshop@nodemailer.com',
+                to: email,
+                subject: 'Status Upgrade',
+                html: `
+                    <p>Dear ${name}, your status in Johnny Shop has been Upgraded. You are now an Admin.</p>
+                    <p>Welcome to our Team. Let us work hard to make Johnny shop a success.</p>
+                    <p>Login to your account to explore the new features of your account. Cheers</p>
+                `
+            };
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.log(err);
+                }
+            })
         })
         .catch(err => {
             return next(new Error(err));
@@ -306,13 +300,14 @@ exports.postNewAdmin = (req, res, next) => {
 
 exports.postRemoveAdmin = (req, res, next) => {
     if (req.user.role !== 'super') {
-        return res.redirect('/');
+        return res.redirect('/404');
     }
     const error = validationResult(req);
     if (!error.isEmpty()) {
         req.flash('err', 'Invalid Email Address!')
         return res.redirect('/admin/newAdmin');
     }
+    let name
     const email = req.body.email;
     user.findOne({ email: email })
         .then(user => {
@@ -325,29 +320,26 @@ exports.postRemoveAdmin = (req, res, next) => {
                 return res.redirect('back');
             }
             user.role = 'user';
-            const name = user.firstName + ' ' + user.lastName;
-            user.save()
-                .then(() => {
-                    req.flash('success', 'Admin Successfully Created!');
-                    res.redirect('back');
-                    const mailOptions = {
-                        from: 'myshop@nodemailer.com',
-                        to: email,
-                        subject: 'Suspension of Admin Previledges',
-                        html: `
-                            <p>Dear ${name}, your status as an Admin in Johnny Shop has been suspended indefinitely.</p>
-                            <p>You can still use your account for shoping. Thanks.</p>
-                        `
-                    };
-                    transporter.sendMail(mailOptions, (err, info) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                })
-                .catch(err => {
-                    return next(new Error(err));
-                })
+            name = user.firstName + ' ' + user.lastName;
+            return user.save()
+        })
+        .then(() => {
+            req.flash('success', 'Admin Successfully Removed!');
+            res.redirect('back');
+            const mailOptions = {
+                from: 'myshop@nodemailer.com',
+                to: email,
+                subject: 'Suspension of Admin Previledges',
+                html: `
+                    <p>Dear ${name}, your status as an Admin in Johnny Shop has been suspended indefinitely.</p>
+                    <p>You can still use your account for shopping. Thanks.</p>
+                `
+            };
+            transporter.sendMail(mailOptions, (err, info) => {
+                if (err) {
+                    console.log(err);
+                }
+            })
         })
         .catch(err => {
             return next(new Error(err));
@@ -358,6 +350,6 @@ exports.postLogOut = (req, res, next) => {
     req.session.isLoggedIn = false;
     req.session.userId = null;
     req.session.save(() => {
-        res.redirect('/home');
+        res.redirect('/');
     })
 }

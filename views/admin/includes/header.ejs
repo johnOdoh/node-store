@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>The Fashion Mall - Happy Shopping!</title>
+    <title>The Fashion Mall - Everything Fashion</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
 		============================================ -->
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/admin/img/favicon.ico">
     <!-- Google Fonts
 		============================================ -->
     <link href="https://fonts.googleapis.com/css?family=Play:400,700" rel="stylesheet">
@@ -73,14 +73,15 @@
                     <ul class="metismenu" id="menu1">
                         <li class="active">
                             <ul class="submenu-angle" aria-expanded="true">
-			    <li><a title="Dashboard" href="/admin/dashboard"><i class="fa fa-dashboard sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dashboard</span></a></li>
+                                <li><a title="Dashboard" href="/admin/dashboard"><i class="fa fa-dashboard sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Dashboard</span></a></li>
                                 <% if (role === 'admin' || role === 'super'){ %>
                                     <li><a title="Dashboard" href="/admin/adminDashboard"><i class="fa fa-dashboard sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Admin Dashboard</span></a></li>
-                                    <li><a title="Product List" href="/admin/product-list"><i class="fa fa-list sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Product List</span></a></li>
+                                    <li><a title="Product List" href="/admin/product-list"><i class="fa fa-list sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Products List</span></a></li>
                                     <li><a title="Add Product" href="/admin/product-add"><i class="fa fa-plus sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Add Product</span></a></li>
                                     <li><a title="All Orders" href="/admin/orders"><i class="fa fa-cart-plus sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Orders</span></a></li>
+                                    <li><a title="Coupons" href="/admin/coupon"><i class="fa fa-shopping-bag sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Coupons</span></a></li>
                                     <% } %>
-                                        <li><a title="Delivery Address" href="/admin/address"><i class="fa fa-compass sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Delivery Address</span></a></li>
+                                        <li><a title="Delivery Address" href="/admin/address"><i class="fa fa-compass sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">Delivery information</span></a></li>
                                         <li><a title="My Orders" href="/admin/myOrders"><i class="fa fa-cart-plus sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">My Orders</span></a></li>
                                         <li><a title="My Wishlist" href="/admin/myWishlist"><i class="fa fa-magic sub-icon-mg" aria-hidden="true"></i> <span class="mini-sub-pro">My Wishlist</span></a></li>
                                         <% if (role === 'super'){ %>
@@ -123,7 +124,7 @@
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item"><a href="/home" class="nav-link">Home</a>
                                                 </li>
-                                                <li class="nav-item"><a href="/shop" class="nav-link">Shop</a>
+                                                <li class="nav-item"><a href="/shop" class="nav-link">Products</a>
                                                 </li>
                                                 <li class="nav-item"><a href="/about" class="nav-link">About</a>
                                                 </li>
@@ -142,6 +143,7 @@
                                                         <i class="fa fa-angle-down adminpro-icon adminpro-down-arrow"></i>
                                                     </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
+                                                        <li><a href="#"><span class="fa fa-user author-log-ic"></span>My Profile</a></li>
                                                         <form action="/auth/logout" method="POST">
                                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                                             <li><button><span class="fa fa-lock author-log-ic"></span>Log Out</button></li>
@@ -168,12 +170,13 @@
                                         <li><a href="/admin/dashboard">Dashboard</a></li>
                                         <% if (role === 'admin' || role === 'super'){ %>
                                             <li><a href="/admin/adminDashboard">Admin Dashboard</a></li>
-                                            <li><a href="/admin/product-list">Product List</a></li>
+                                            <li><a href="/admin/product-list">Products List</a></li>
                                             <li><a href="/admin/product-add">Add Product</a></li>
                                             <li><a href="/admin/orders">Orders</a></li>
+                                            <li><a href="/admin/coupon">Coupons</a></li>
                                             <% } %>
                                                 <li><a href="/admin/myOrders">My Orders</a></li>
-                                                <li><a href="/admin/address">Delivery Address</a></li>
+                                                <li><a href="/admin/address">Delivery information</a></li>
                                                 <li><a href="/admin/myWishlist">My Wishlist</a></li>
                                                 <% if (role === 'super'){ %>
                                                     <li><a href="/admin/newAdmin">Create Admin</a></li>

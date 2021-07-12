@@ -14,6 +14,10 @@ const orderSchema = new Schema({
     trackingCode: {
         type: String
     },
+    discount: {
+        type: Number,
+        default: 0
+    },
     total: {
         type: Number
     },

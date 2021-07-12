@@ -45,7 +45,8 @@ module.exports = class Cart {
             }
         })
         const cart = req.session.cart.products.map(p => {
-            return {...p, title: products.find(q => q._id == p.prodId).title, salePrice: products.find(q => q._id == p.prodId).salePrice, image: products.find(q => q._id == p.prodId).image, }
+            let prodObj = products.find(q => q._id == p.prodId)
+            return {...p, title: prodObj.title, salePrice: prodObj.salePrice, image: prodObj.image }
         })
         cb(cart, limited);
     }

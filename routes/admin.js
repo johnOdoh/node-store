@@ -42,6 +42,12 @@ router.get('/wishlist/:prodId', midWare.auth, adminController.getAlterWishlist);
 
 router.get('/myWishlist', midWare.auth, adminController.getMyWishlist);
 
+router.get('/coupon', midWare.auth, adminController.getCoupon);
+
+router.post('/coupon', midWare.auth, adminController.postCoupon);
+
+router.get('/deleteCoupon/:id', midWare.auth, adminController.deleteCoupon);
+
 router.get('/newAdmin', midWare.auth, adminController.getNewAdmin);
 
 module.exports = router;

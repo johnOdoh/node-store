@@ -10,6 +10,8 @@ const validator = require('../util/validation');
 
 const router = express.Router();
 
+router.get('/', midWare.cartLength, midWare.checkDataCookie, shopController.getHome);
+
 router.get('/home', midWare.cartLength, midWare.checkDataCookie, shopController.getHome);
 
 router.get('/shop', midWare.cartLength, midWare.checkDataCookie, shopController.getShop);
@@ -20,9 +22,9 @@ router.get('/about', midWare.cartLength, midWare.checkDataCookie, shopController
 
 router.get('/contact-us', midWare.cartLength, midWare.checkDataCookie, shopController.getContactUs);
 
-router.post('/contact-us', validator.contactUsVal, midWare.checkDataCookie, midWare.cartLength, shopController.postContactUs);
+// router.get('/service', midWare.cartLength, midWare.checkDataCookie, shopController.getService);
 
-router.get('/service', midWare.cartLength, midWare.checkDataCookie, shopController.getService);
+router.post('/contact-us', validator.contactUsVal, shopController.postContactUs);
 
 router.post('/cart', shopController.postCart);
 
@@ -32,6 +34,12 @@ router.get('/cart', midWare.cartLength, midWare.checkDataCookie, shopController.
 
 router.get('/checkout', midWare.auth, midWare.cartLength, midWare.checkDataCookie, shopController.getCheckout);
 
-router.post('/checkout', midWare.auth, validator.addressVal, shopController.postCheckout);
+router.post('/stripe', midWare.auth, validator.addressVal, shopController.getStripe);
+
+router.post('/coupon', shopController.postCoupon)
+
+router.get('/removeCoupon', shopController.removeCoupon)
+
+router.get('/order', shopController.getOrder);
 
 module.exports = router;

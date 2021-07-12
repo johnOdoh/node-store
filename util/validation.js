@@ -18,10 +18,10 @@ exports.logInVal = [
 ]
 
 exports.addressVal = [
-    check(['address1', 'phone', 'country', 'city', 'zip']).trim().escape().not().isEmpty(),
+    check(['address1', 'phone', 'country', 'city', 'zip']).trim().escape().not().isEmpty().withMessage('Please fill all required fields'),
     check('address2').trim().escape(),
-    check('phone').isNumeric(),
-    check('zip').isPostalCode(('any'))
+    check('phone').isNumeric().withMessage('Invalid Phone Number'),
+    check('zip').isPostalCode(('any')).withMessage('Invalid Zip code')
 ]
 
 exports.addProduct = [
