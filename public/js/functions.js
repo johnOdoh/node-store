@@ -1,8 +1,10 @@
 const cart = document.getElementById('cart');
 const cartTotal = document.getElementById('cart-total');
+const coupon = document.getElementById('coupon');
+const discount = document.getElementById('discount');
+const grandTotal = document.getElementById('grand-total');
 const products = document.getElementsByClassName('myCart');
 const updateBtns = document.getElementsByClassName('updateCart');
-const prices = document.getElementsByClassName('itemPrice');
 const prods = document.getElementsByClassName('prod');
 const tprices = document.getElementsByClassName('itemTotal');
 
@@ -13,11 +15,13 @@ for (let btn of updateBtns) {
 function cartSum() {
     let total = 0;
     for (let i = 0; i < tprices.length; i++) {
-        let tprice = tprices[i];
-        let price = tprice.innerText.replace('$', '');
-        total += +price;
+        let tprice = tprices[i].innerText;
+        total += +tprice
     }
-    cartTotal.innerText = '$' + total.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    cartTotal.innerText = total.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    const discountAmount = parseFloat((total / 100) * coupon.innerText)
+    discount.innerText = discountAmount.toLocaleString(undefined, { maximumFractionDigits: 2 })
+    grandTotal.innerText = (total - discountAmount).toLocaleString(undefined, { maximumFractionDigits: 2 })
 }
 
 const remove = btn => {
@@ -91,7 +95,6 @@ const submit3 = btn => {
     const size = container.querySelector('input[name="size"]').value
     const csrf = btn.parentNode.querySelector('input[name="_csrf"]').value
     const price = container.querySelector('.itemPrice').innerText.replace('\$', '')
-    console.log(price)
 
     fetch('/cart', {
             method: 'POST',
@@ -115,7 +118,7 @@ const submit3 = btn => {
         .then(response => {
             btn.parentNode.parentNode.style.display = 'none';
             container.querySelector('input[name="qty"]').value = qty
-            container.querySelector('.itemTotal').innerText = '$' + (qty * price).toFixed(2)
+            container.querySelector('.itemTotal').innerText = (qty * price).toFixed(2)
             update()
             alert('Product Updated!')
             cartSum()
@@ -177,13 +180,17 @@ const addToCart = (csrf, id, size, qty = undefined) => {
 function checkout() {
     const radioDiv = document.querySelector('#radios')
     const shippingCost = document.querySelector('#shipping-cost')
+    const discount = document.querySelector('#discount')
     const grandTotal = document.querySelector('#grand-total')
     const orderSummary = document.querySelector('#order-summary')
+    const couponDis = document.querySelector('input[name="disc"]').value
+    const shippingId = document.querySelector('input[name="shipping-id"]')
     const radios = radioDiv.querySelectorAll('input[name="shippingOption"]')
 
     radios.forEach(element => {
         element.addEventListener('change', () => {
-            shippingCost.innerHTML = '$' + element.value
+            // shippingId.value = element.getAttribute('data-id')
+            shippingCost.innerHTML = element.value
             sum()
         })
     })
@@ -191,10 +198,13 @@ function checkout() {
     const sum = () => {
         let total = 0;
         orderSummary.querySelectorAll('.val').forEach(element => {
-            const val = element.innerHTML.replace('\$', '')
+            const val = element.innerText.trim()
             total += +val
         })
-        grandTotal.innerHTML = '$' + total.toLocaleString(undefined, { maximumFractionDigits: 2 })
+        const newDiscount = (total/100) * couponDis
+        total -= newDiscount
+        discount.innerText = newDiscount.toLocaleString(undefined, { maximumFractionDigits: 2 })
+        grandTotal.innerText = total.toLocaleString(undefined, { maximumFractionDigits: 2 })
     }
     sum()
 }
