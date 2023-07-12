@@ -25,7 +25,7 @@ const authRoutes = require('./routes/auth');
 //Express initialization
 const app = express();
 const sessionStore = new mongoDBStore({
-    uri: 'mongodb+srv://johnny:12345678%2B%2B--@johnny-u8qnc.mongodb.net',
+    uri: process.env.DB,
     databaseName: 'shop',
     collection: 'sessions'
 });
